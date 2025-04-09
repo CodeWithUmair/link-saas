@@ -4,6 +4,7 @@ import Link from "next/link";
 
 export default async function Header() {
   const session = await auth();
+
   return (
     <header className="bg-white border-b py-4">
       <div className="max-w-4xl flex justify-between mx-auto px-6">
@@ -27,7 +28,6 @@ export default async function Header() {
           {!session && (
             <>
               <Link href={"/login"}>Sign In</Link>
-              <Link href={"/login"}>Create Account</Link>
             </>
           )}
         </nav>
