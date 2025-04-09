@@ -6,16 +6,27 @@ import { User } from "@/models/User";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 
+// Utility types
+type PageSettings = {
+  [key: string]: FormDataEntryValue | null;
+};
+
+type ButtonValues = {
+  [key: string]: FormDataEntryValue;
+};
+
 export async function savePageSettings(formData: FormData) {
   mongoose.connect(process.env.MONGO_URI!);
   const session = await getServerSession(authOptions);
+
   if (session) {
     const dataKeys = [
       'displayName', 'location',
       'bio', 'bgType', 'bgColor', 'bgImage',
     ];
 
-    const dataToUpdate = {};
+    const dataToUpdate: PageSettings = {};
+
     for (const key of dataKeys) {
       if (formData.has(key)) {
         dataToUpdate[key] = formData.get(key);
@@ -44,30 +55,38 @@ export async function savePageSettings(formData: FormData) {
 export async function savePageButtons(formData: FormData) {
   mongoose.connect(process.env.MONGO_URI!);
   const session = await getServerSession(authOptions);
+
   if (session) {
-    const buttonsValues = {};
+    const buttonsValues: ButtonValues = {};
+
     formData.forEach((value, key) => {
       buttonsValues[key] = value;
     });
+
     const dataToUpdate = { buttons: buttonsValues };
+
     await Page.updateOne(
       { owner: session?.user?.email },
       dataToUpdate,
     );
+
     return true;
   }
+
   return false;
 }
 
-export async function savePageLinks(links) {
+export async function savePageLinks(links: string[]) {
   mongoose.connect(process.env.MONGO_URI!);
   const session = await getServerSession(authOptions);
+
   if (session) {
     await Page.updateOne(
       { owner: session?.user?.email },
       { links },
     );
-  } else {
-    return false;
+    return true;
   }
+
+  return false;
 }
