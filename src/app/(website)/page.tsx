@@ -1,10 +1,11 @@
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import HeroForm from "@/components/forms/HeroForm";
+import { Session } from "@/types";
 import { getServerSession } from "next-auth";
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
-  
+  const session = (await getServerSession(authOptions)) as Session | null;
+
   return (
     <main>
       <section className="pt-32">
@@ -16,7 +17,7 @@ export default async function Home() {
             Share your links, social profiles, contact info and more on one page
           </h2>
         </div>
-        <HeroForm user={session?.user} />
+        <HeroForm user={session} />
       </section>
     </main>
   )

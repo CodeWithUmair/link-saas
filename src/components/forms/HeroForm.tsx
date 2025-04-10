@@ -1,10 +1,14 @@
 "use client";
 
+import { Session } from "@/types";
 import { signIn } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
+interface HeroFormProps {
+  user: Session | null;
+}
 
-export default function HeroForm({ user }) {
+const HeroForm: React.FC<HeroFormProps> = ({ user }) => {
   const router = useRouter();
 
   useEffect(() => {
@@ -18,22 +22,22 @@ export default function HeroForm({ user }) {
     }
   }, []);
 
-  async function handleSubmit(ev) {
+  const handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
-    const form = ev.target;
-    const input = form.querySelector("input");
+    const form = ev.currentTarget;
+    const input = form.querySelector('input') as HTMLInputElement;
     const username = input.value;
 
     if (username.length > 0) {
       if (user) {
-        router.push("/account?desiredUsername=" + username);
+        router.push(`/account?desiredUsername=${username}`);
       } else {
-        window.localStorage.setItem("desiredUsername", username);
-        await signIn("google");
+        window.localStorage.setItem('desiredUsername', username);
+        await signIn('google');
       }
     }
-  }
+  };
 
   return (
     <form
@@ -56,3 +60,5 @@ export default function HeroForm({ user }) {
     </form>
   );
 }
+
+export default HeroForm;
