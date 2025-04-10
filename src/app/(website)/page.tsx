@@ -1,8 +1,10 @@
+import { authOptions } from "../api/auth/[...nextauth]/route";
 import HeroForm from "@/components/forms/HeroForm";
-import { auth } from "@/auth";
+import { getServerSession } from "next-auth";
 
 export default async function Home() {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
+  
   return (
     <main>
       <section className="pt-32">

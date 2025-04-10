@@ -1,6 +1,13 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import LoginWithGoogle from "@/components/buttons/LoginWithGoogle";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await getServerSession(authOptions);
+
+  if (session) redirect("/");
+
   return (
     <div>
       <div className="p-4 max-w-xs mx-auto">
