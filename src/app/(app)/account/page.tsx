@@ -9,15 +9,15 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import cloneDeep from "clone-deep";
 
-export default async function AccountPage({ searchParams }) {
+export default async function AccountPage({ searchParams }: { searchParams: { desiredUsername: string } }) {
   const session = await getServerSession(authOptions);
-  const desiredUsername = searchParams?.desiredUsername;
+  const desiredUsername = await searchParams?.desiredUsername;
 
   if (!session) {
     return redirect("/");
   }
 
-  mongoose.connect(process.env.MONGO_URI);
+  mongoose.connect(process.env.MONGO_URI!);
 
   let page = await Page.findOne({ owner: session?.user?.email });
 

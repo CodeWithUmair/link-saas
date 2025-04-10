@@ -2183,6 +2183,11 @@
   dependencies:
     tslib "^2.4.0"
 
+"@types/clone-deep@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@types/clone-deep/-/clone-deep-4.0.4.tgz#6932f2d0a4b4ef337d97cb72e6ecdf091c05145d"
+  integrity sha512-vXh6JuuaAha6sqEbJueYdh5zNBPPgG1OYumuz2UvLvriN6ABHDSW8ludREGWJb1MLIzbwZn4q4zUbUCerJTJfA==
+
 "@types/cookie@0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.6.0.tgz#eac397f28bf1d6ae0ae081363eca2f425bedf0d5"

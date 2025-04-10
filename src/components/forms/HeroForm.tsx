@@ -4,8 +4,9 @@ import { signIn } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function HeroForm({ user }) {
+export default function HeroForm({ user }: { user: Session | null }) {
   const router = useRouter();
+
   useEffect(() => {
     if (
       "localStorage" in window &&
@@ -16,7 +17,9 @@ export default function HeroForm({ user }) {
       redirect("/account?desiredUsername=" + username);
     }
   }, []);
+
   async function handleSubmit(ev) {
+    console.log("🚀 ~ handleSubmit ~ ev:", ev)
     ev.preventDefault();
     const form = ev.target;
     const input = form.querySelector("input");
@@ -30,6 +33,7 @@ export default function HeroForm({ user }) {
       }
     }
   }
+
   return (
     <form
       onSubmit={handleSubmit}
