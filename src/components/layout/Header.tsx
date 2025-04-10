@@ -1,9 +1,10 @@
 import LogoutButton from "@/components/buttons/LogoutButton";
-import { auth } from "@/auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 import Link from "next/link";
 
 export default async function Header() {
-  const session = await auth();
+  const session = await getServerSession(authOptions);
 
   return (
     <header className="bg-white border-b py-4">
