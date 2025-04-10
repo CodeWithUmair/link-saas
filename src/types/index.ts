@@ -1,3 +1,5 @@
+import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
+
 export interface Session {
     user: {
         name?: string | null;
@@ -12,4 +14,13 @@ export interface PageLink {
     subtitle: string;
     url: string;
     icon?: string;
+}
+
+
+export interface ButtonItem {
+    key: string;
+    label: string;
+    icon: IconDefinition;
+    placeholder?: string;
+    id: string
 }

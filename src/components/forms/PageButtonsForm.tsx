@@ -5,19 +5,7 @@ import SubmitButton from "@/components/buttons/SubmitButton";
 import SectionBox from "@/components/layout/SectionBox";
 import { ReactSortable } from "react-sortablejs";
 import {
-  faDiscord,
-  faFacebook,
-  faGithub,
-  faInstagram,
-  faTelegram,
-  faTiktok,
-  faWhatsapp,
-  faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-  faEnvelope,
   faGripLines,
-  faMobile,
   faPlus,
   faSave,
   faTrash,
@@ -25,73 +13,62 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { allButtons } from "@/constants/data";
+import { ButtonItem } from "@/types";
 
-export const allButtons = [
-  {
-    key: "email",
-    label: "e-mail",
-    icon: faEnvelope,
-    placeholder: "test@example.com",
-  },
-  {
-    key: "mobile",
-    label: "mobile",
-    icon: faMobile,
-    placeholder: "+46 123 123 123",
-  },
-  {
-    key: "instagram",
-    label: "instagram",
-    icon: faInstagram,
-    placeholder: "https://facebook.com/profile/...",
-  },
-  { key: "facebook", label: "facebook", icon: faFacebook },
-  { key: "discord", label: "discord", icon: faDiscord },
-  { key: "tiktok", label: "tiktok", icon: faTiktok },
-  { key: "youtube", label: "youtube", icon: faYoutube },
-  { key: "whatsapp", label: "whatsapp", icon: faWhatsapp },
-  { key: "github", label: "github", icon: faGithub },
-  { key: "telegram", label: "telegram", icon: faTelegram },
-];
-
-function upperFirst(str) {
+function upperFirst(str: string): string {
   return str.slice(0, 1).toUpperCase() + str.slice(1);
 }
 
-export default function PageButtonsForm({ user, page }) {
-  // Fallback to empty object if page.buttons is undefined or null
+interface Page {
+  buttons?: Record<string, string>;
+}
+
+interface SortableButtonItem extends ButtonItem {
+  id: string;
+}
+
+
+export default function PageButtonsForm({ page }: { page: Page }) {
+
   const pageSavedButtonsKeys = Object.keys(page.buttons || {});
-  const pageSavedButtonsInfo = pageSavedButtonsKeys.map((k) =>
-    allButtons.find((b) => b.key === k)
-  );
-  const [activeButtons, setActiveButtons] = useState(pageSavedButtonsInfo);
 
-  function addButtonToProfile(button) {
-    setActiveButtons((prevButtons) => {
-      return [...prevButtons, button];
-    });
+  const pageSavedButtonsInfo: SortableButtonItem[] = pageSavedButtonsKeys
+    .map((k) => {
+      const b = allButtons.find((b) => b.key === k);
+      return b ? { ...b, id: b.key } : undefined; // <-- Use key as id
+    })
+    .filter((b): b is SortableButtonItem => b !== undefined);
+
+  const [activeButtons, setActiveButtons] = useState<SortableButtonItem[]>(pageSavedButtonsInfo);
+
+  function addButtonToProfile(button: ButtonItem) {
+    setActiveButtons((prevButtons) => [
+      ...prevButtons,
+      { ...button, id: button.key },
+    ]);
   }
 
-  async function saveButtons(formData) {
-    await savePageButtons(formData);
-    toast.success("Settings saved!");
-  }
-
-  function removeButton({ key: keyToRemove }) {
+  function removeButton({ key: keyToRemove }: { key: string }) {
     setActiveButtons((prevButtons) =>
       prevButtons.filter((button) => button.key !== keyToRemove)
     );
   }
 
-  const availableButtons = allButtons.filter(
-    (b1) => !activeButtons.find((b2) => b1.key === b2.key)
-  );
+  async function saveButtons(formData: FormData) {
+    await savePageButtons(formData);
+    toast.success("Settings saved!");
+  }
+
+  const availableButtons: ButtonItem[] = allButtons
+    .map((b) => ({ ...b, id: b.key })) // Ensure each button has an id
+    .filter((b1) => !activeButtons.some((b2) => b2.key === b1.key));
 
   return (
     <SectionBox>
       <form action={saveButtons}>
         <h2 className="text-2xl font-bold mb-4">Buttons</h2>
-        <ReactSortable
+        <ReactSortable<SortableButtonItem>
           handle=".handle"
           list={activeButtons}
           setList={setActiveButtons}
@@ -110,7 +87,7 @@ export default function PageButtonsForm({ user, page }) {
                 <input
                   placeholder={b.placeholder}
                   name={b.key}
-                  defaultValue={page.buttons ? page.buttons[b.key] : ""}
+                  defaultValue={page.buttons?.[b.key] || ""}
                   type="text"
                   style={{ marginBottom: "0" }}
                 />
@@ -124,6 +101,7 @@ export default function PageButtonsForm({ user, page }) {
               </div>
             </div>
           ))}
+
         </ReactSortable>
         <div className="flex flex-wrap gap-2 mt-4 border-y py-4">
           {availableButtons.map((b) => (
