@@ -6,3 +6,10 @@ export interface Session {
     } | null;
     expires: string;
 }
+
+export interface PageLink {
+    title: string;
+    subtitle: string;
+    url: string;
+    icon?: string;
+}

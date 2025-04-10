@@ -22,6 +22,7 @@ import mongoose from "mongoose";
 import { btoa } from "next/dist/compiled/@edge-runtime/primitives";
 import Image from "next/image";
 import Link from "next/link";
+import { PageLink } from "@/types";
 
 export const buttonsIcons = {
   email: faEnvelope,
@@ -36,7 +37,12 @@ export const buttonsIcons = {
   telegram: faTelegram,
 };
 
-function buttonLink(key, value) {
+interface ButtonLinkParams {
+  key: string;
+  value: string;
+}
+
+function buttonLink({ key, value }: ButtonLinkParams): string {
   if (key === "mobile") {
     return "tel:" + value;
   }
@@ -46,12 +52,17 @@ function buttonLink(key, value) {
   return value;
 }
 
-export default async function UserPage({ params }) {
+interface UserPageParams {
+  uri: string;
+}
+
+export default async function UserPage({ params }: { params: UserPageParams }) {
   const uri = params.uri;
   mongoose.connect(process.env.MONGO_URI!);
   const page = await Page.findOne({ uri });
   const user = await User.findOne({ email: page.owner });
   await Event.create({ uri: uri, page: uri, type: "view" });
+
   return (
     <div className="bg-blue-950 text-white min-h-screen">
       <div
@@ -83,18 +94,18 @@ export default async function UserPage({ params }) {
         {Object.keys(page.buttons).map((buttonKey) => (
           <Link
             key={buttonKey}
-            href={buttonLink(buttonKey, page.buttons[buttonKey])}
+            href={buttonLink({ key: buttonKey, value: page.buttons[buttonKey] })}
             className="rounded-full bg-white text-blue-950 p-2 flex items-center justify-center"
           >
             <FontAwesomeIcon
               className="w-5 h-5"
-              icon={buttonsIcons[buttonKey]}
+              icon={buttonsIcons[buttonKey as keyof typeof buttonsIcons]}
             />
           </Link>
         ))}
       </div>
       <div className="max-w-2xl mx-auto grid md:grid-cols-2 gap-6 p-4 px-8">
-        {page.links.map((link) => (
+        {page.links.map((link: PageLink) => (
           <Link
             key={link.url}
             target="_blank"

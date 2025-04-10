@@ -3,6 +3,7 @@ import Chart from "@/components/Chart";
 import SectionBox from "@/components/layout/SectionBox";
 import { Event } from "@/models/Event";
 import { Page } from "@/models/Page";
+import { PageLink } from "@/types";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { isToday } from "date-fns";
@@ -62,7 +63,7 @@ export default async function AnalyticsPage() {
       </SectionBox>
       <SectionBox>
         <h2 className="text-xl mb-6 text-center">Clicks</h2>
-        {page.links.map((link) => (
+        {page.links.map((link: PageLink) => (
           <div
             key={link.title}
             className="md:flex gap-4 items-center border-t border-gray-200 py-4"
