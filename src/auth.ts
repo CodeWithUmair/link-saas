@@ -1,6 +1,9 @@
+import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
+import client from "./libs/db"
 
-export const { auth, handlers, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
+    adapter: MongoDBAdapter(client),
     providers: [Google],
 })
