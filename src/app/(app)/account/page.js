@@ -21,11 +21,14 @@ export default async function AccountPage({ searchParams }) {
 
   let page = await Page.findOne({ owner: session?.user?.email });
 
+  if (page === null) {
+    return redirect("/");
+  }
+
   if (!page) {
     page = await Page.create({
       uri: desiredUsername,
       owner: session?.user?.email,
-      // add any other default fields
     });
   }
 

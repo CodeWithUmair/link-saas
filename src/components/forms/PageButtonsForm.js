@@ -9,7 +9,6 @@ import {
   faFacebook,
   faGithub,
   faInstagram,
-  faInstagramSquare,
   faTelegram,
   faTiktok,
   faWhatsapp,
