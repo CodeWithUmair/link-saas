@@ -104,7 +104,8 @@ export default async function UserPage({ params }: { params: UserPageParams }) {
           </Link>
         ))}
       </div>
-      <div className="max-w-2xl mx-auto grid md:grid-cols-2 gap-6 p-4 px-8">
+      
+      <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-6 p-4 px-8">
         {page.links.map((link: PageLink) => (
           <Link
             key={link.url}

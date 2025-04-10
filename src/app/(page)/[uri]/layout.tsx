@@ -13,11 +13,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body className={lato.className}>
         <main>
-          <div className="max-w-4xl mx-auto p-6">{children}</div>
+          <div className="max-w-full w-full">{children}</div>
         </main>
       </body>
     </html>
