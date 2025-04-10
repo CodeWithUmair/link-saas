@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function HeroForm({ user }: { user: Session | null }) {
+export default function HeroForm({ user }) {
   const router = useRouter();
 
   useEffect(() => {
@@ -19,11 +19,12 @@ export default function HeroForm({ user }: { user: Session | null }) {
   }, []);
 
   async function handleSubmit(ev) {
-    console.log("🚀 ~ handleSubmit ~ ev:", ev)
     ev.preventDefault();
+
     const form = ev.target;
     const input = form.querySelector("input");
     const username = input.value;
+
     if (username.length > 0) {
       if (user) {
         router.push("/account?desiredUsername=" + username);

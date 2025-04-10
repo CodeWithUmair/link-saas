@@ -11,7 +11,7 @@ import cloneDeep from "clone-deep";
 
 export default async function AccountPage({ searchParams }: { searchParams: { desiredUsername: string } }) {
   const session = await getServerSession(authOptions);
-  const desiredUsername = await searchParams?.desiredUsername;
+  const desiredUsername = searchParams?.desiredUsername;
 
   if (!session) {
     return redirect("/");
@@ -21,7 +21,7 @@ export default async function AccountPage({ searchParams }: { searchParams: { de
 
   let page = await Page.findOne({ owner: session?.user?.email });
 
-  if (page === null) {
+  if (page === null && desiredUsername === undefined) {
     return redirect("/");
   }
 
