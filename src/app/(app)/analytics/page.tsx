@@ -11,13 +11,13 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export default async function AnalyticsPage() {
-  mongoose.connect(process.env.MONGO_URI);
+  mongoose.connect(process.env.MONGO_URI!);
   const session = await getServerSession(authOptions);
 
   if (!session) {
     return redirect("/");
   }
-  const page = await Page.findOne({ owner: session.user.email });
+  const page = await Page.findOne({ owner: session?.user?.email });
 
   const groupedViews = await Event.aggregate([
     {
