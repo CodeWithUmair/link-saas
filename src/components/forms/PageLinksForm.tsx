@@ -1,37 +1,56 @@
 'use client';
-import {savePageLinks} from "@/actions/pageActions";
+
+import { savePageLinks } from "@/actions/pageActions";
 import SubmitButton from "@/components/buttons/SubmitButton";
 import SectionBox from "@/components/layout/SectionBox";
-import {upload} from "@/libs/upload";
-import {faCloudArrowUp, faGripLines, faLink, faPlus, faSave, faTrash} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { upload } from "@/libs/upload";
+import { FormLink } from "@/types";
+import { faCloudArrowUp, faGripLines, faLink, faPlus, faSave, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
-import {useState} from "react";
+import { FC, useState } from "react";
 import toast from "react-hot-toast";
-import {ReactSortable} from "react-sortablejs";
+import { ReactSortable } from "react-sortablejs";
 
-export default function PageLinksForm({page,user}) {
-  const [links,setLinks] = useState(page.links || []);
+interface Page {
+  links?: FormLink[];
+}
+
+interface ItemInterface extends FormLink {
+  id: string;
+}
+
+const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
+
+  const [links, setLinks] = useState<ItemInterface[]>(page.links?.map(link => ({
+    ...link,
+    id: link.key,
+  })) || []);
+
   async function save() {
-    await savePageLinks(links);
+    await savePageLinks(links.map(link => JSON.stringify(link)));
     toast.success('Saved!');
   }
+
   function addNewLink() {
-    setLinks(prev => {
-      return [...prev, {
+    setLinks(prev => [
+      ...prev,
+      {
+        id: Date.now().toString(), // Add id for sortable items
         key: Date.now().toString(),
-        title:'',
-        subtitle:'',
-        icon:'',
-        url:'',
-      }];
-    });
+        title: '',
+        subtitle: '',
+        icon: '',
+        url: '',
+      },
+    ]);
   }
-  function handleUpload(ev, linkKeyForUpload) {
+
+  function handleUpload(ev: React.ChangeEvent<HTMLInputElement>, linkKeyForUpload: string) {
     upload(ev, uploadedImageUrl => {
       setLinks(prevLinks => {
         const newLinks = [...prevLinks];
-        newLinks.forEach((link,index) => {
+        newLinks.forEach((link) => {
           if (link.key === linkKeyForUpload) {
             link.icon = uploadedImageUrl;
           }
@@ -40,7 +59,12 @@ export default function PageLinksForm({page,user}) {
       });
     });
   }
-  function handleLinkChange(keyOfLinkToChange, prop, ev) {
+
+  function handleLinkChange(
+    keyOfLinkToChange: string,
+    prop: keyof FormLink,
+    ev: React.ChangeEvent<HTMLInputElement>
+  ) {
     setLinks(prev => {
       const newLinks = [...prev];
       newLinks.forEach((link) => {
@@ -48,14 +72,16 @@ export default function PageLinksForm({page,user}) {
           link[prop] = ev.target.value;
         }
       });
-      return [...prev];
-    })
+      return newLinks;
+    });
   }
-  function removeLink(linkKeyToRemove) {
+
+  function removeLink(linkKeyToRemove: string) {
     setLinks(prevLinks =>
-      [...prevLinks].filter(l => l.key !== linkKeyToRemove)
+      prevLinks.filter(l => l.key !== linkKeyToRemove)
     );
   }
+
   return (
     <SectionBox>
       <form action={save}>
@@ -79,7 +105,7 @@ export default function PageLinksForm({page,user}) {
                     icon={faGripLines} />
                 </div>
                 <div className="text-center">
-                  <div className="bg-gray-300 inline-block relative aspect-square overflow-hidden w-16 h-16 inline-flex justify-center items-center">
+                  <div className="bg-gray-300 relative aspect-square overflow-hidden w-16 h-16 inline-flex justify-center items-center">
                     {l.icon && (
                       <Image
                         className="w-full h-full object-cover"
@@ -93,11 +119,11 @@ export default function PageLinksForm({page,user}) {
                   </div>
                   <div>
                     <input
-                      onChange={ev => handleUpload(ev,l.key)}
-                      id={'icon'+l.key}
+                      onChange={ev => handleUpload(ev, l.key)}
+                      id={'icon' + l.key}
                       type="file"
-                      className="hidden"/>
-                    <label htmlFor={'icon'+l.key} className="border mt-2 p-2 flex items-center gap-1 text-gray-600 cursor-pointer mb-2 justify-center">
+                      className="hidden" />
+                    <label htmlFor={'icon' + l.key} className="border mt-2 p-2 flex items-center gap-1 text-gray-600 cursor-pointer mb-2 justify-center">
                       <FontAwesomeIcon icon={faCloudArrowUp} />
                       <span>Change icon</span>
                     </label>
@@ -114,17 +140,17 @@ export default function PageLinksForm({page,user}) {
                   <input
                     value={l.title}
                     onChange={ev => handleLinkChange(l.key, 'title', ev)}
-                    type="text" placeholder="title"/>
+                    type="text" placeholder="title" />
                   <label className="input-label">Subtitle:</label>
                   <input
                     value={l.subtitle}
                     onChange={ev => handleLinkChange(l.key, 'subtitle', ev)}
-                    type="text" placeholder="subtitle (optional)"/>
+                    type="text" placeholder="subtitle (optional)" />
                   <label className="input-label">URL:</label>
                   <input
                     value={l.url}
                     onChange={ev => handleLinkChange(l.key, 'url', ev)}
-                    type="text" placeholder="url"/>
+                    type="text" placeholder="url" />
                 </div>
               </div>
             ))}
@@ -140,3 +166,5 @@ export default function PageLinksForm({page,user}) {
     </SectionBox>
   );
 }
+
+export default PageLinksForm;

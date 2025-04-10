@@ -24,3 +24,12 @@ export interface ButtonItem {
     placeholder?: string;
     id: string
 }
+
+export type FormLink = {
+    key: string;
+    title: string;
+    subtitle: string;
+    icon: string;
+    url: string;
+  };
+  
