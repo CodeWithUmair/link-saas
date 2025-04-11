@@ -11,31 +11,43 @@ import {
   YAxis,
 } from "recharts";
 
-export default function Chart({ data }) {
+// Define the structure of each item in the data array
+interface DataItem {
+  date: string; // Assuming date is a string in ISO format
+  [key: string]: string | number; // Dynamic keys that can be numbers or strings
+}
+
+// Define the Chart component props
+interface ChartProps {
+  data: DataItem[];
+}
+
+export default function Chart({ data }: ChartProps) {
   if (!data || data.length === 0) {
     return <div>No data available.</div>;
   }
 
+  // Extract the x-axis label key (excluding 'date')
   const xLabelKey = Object.keys(data[0]).find((key) => key !== "date");
 
-  const dataWithoutGaps = [];
+  const dataWithoutGaps: DataItem[] = [];
+
   data.forEach((value, index) => {
     const date = value.date;
     dataWithoutGaps.push({
       date,
-      [xLabelKey]: value?.[xLabelKey] || 0,
+      [xLabelKey!]: value?.[xLabelKey!] || 0, // Use non-null assertion for xLabelKey
     });
+
     const nextDate = data?.[index + 1]?.date;
     if (date && nextDate) {
       const daysBetween = differenceInDays(parseISO(nextDate), parseISO(date));
       if (daysBetween > 0) {
         for (let i = 1; i < daysBetween; i++) {
-          const dateBetween = formatISO9075(addDays(parseISO(date), i)).split(
-            " "
-          )[0];
+          const dateBetween = formatISO9075(addDays(parseISO(date), i)).split(" ")[0];
           dataWithoutGaps.push({
             date: dateBetween,
-            [xLabelKey]: 0,
+            [xLabelKey!]: 0,
           });
         }
       }
@@ -68,7 +80,7 @@ export default function Chart({ data }) {
           <Tooltip />
           <Line
             type="monotone"
-            dataKey={xLabelKey}
+            dataKey={xLabelKey!}
             stroke="#09f"
             strokeWidth="4"
           />
