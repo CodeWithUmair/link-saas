@@ -74,7 +74,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
                   { value: "color", icon: faPalette, label: "Color" },
                   { value: "image", icon: faImage, label: "Image" },
                 ]}
-                onChange={(val: "color" | "image") => setBgType(val)}
+                onChange={(val: string) => setBgType(val as "color" | "image")}
               />
               {bgType === "color" && (
                 <div className="bg-gray-200 shadow text-gray-700 p-2 mt-2">

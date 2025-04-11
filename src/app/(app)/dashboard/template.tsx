@@ -1,16 +1,14 @@
 import "../globals.css";
-import Link from "next/link";
-import Image from "next/image";
 import mongoose from "mongoose";
 import { Page } from "@/models/Page";
 import { Lato } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import AppSidebar from "@/components/layout/AppSidebar";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { faBars, faLink } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AppSidebar } from "@/components/layout/Sidebar";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -51,7 +49,7 @@ export default async function AppTemplate({
             htmlFor="navCb"
             className="hidden backdrop fixed inset-0 bg-black/80 z-10"
           ></label>
-          <aside className="bg-white w-48 p-4 pt-6 shadow fixed md:static -left-48 top-0 bottom-0 z-20 transition-all">
+          {/* <aside className="bg-white w-48 p-4 pt-6 shadow fixed md:static -left-48 top-0 bottom-0 z-20 transition-all">
             <div className="sticky top-0 pt-2">
               <div className="rounded-full overflow-hidden aspect-square w-24 mx-auto">
                 <Image
@@ -80,7 +78,8 @@ export default async function AppTemplate({
                 <AppSidebar />
               </div>
             </div>
-          </aside>
+          </aside> */}
+          <AppSidebar />
           <div className="grow">{children}</div>
         </main>
       </body>
