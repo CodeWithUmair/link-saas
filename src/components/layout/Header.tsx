@@ -2,6 +2,7 @@ import LogoutButton from "@/components/buttons/LogoutButton";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
+import { NAVIGATION } from "@/constants/nav";
 
 export default async function Header() {
   const session = await getServerSession(authOptions);
@@ -14,22 +15,34 @@ export default async function Header() {
             <span className="font-bold">um-saas</span>
           </Link>
           <nav className="flex items-center gap-4 text-slate-500 text-sm">
-            <Link href={"/about"}>About</Link>
-            <Link href={"/pricing"}>Pricing</Link>
-            <Link href={"/contact"}>Contact</Link>
+            {NAVIGATION.mainNav.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.label}
+              </Link>
+            ))}
           </nav>
         </div>
+        {/* Right Side */}
         <nav className="flex items-center gap-4 text-sm text-slate-500">
-          {!!session && (
+          {session ? (
             <>
-              <Link href={"/account"}>Hello, {session?.user?.name}</Link>
-              <LogoutButton />
+              {NAVIGATION.authNav.authenticated.map((item, index) =>
+                item.component === "LogoutButton" ? (
+                  <LogoutButton key={index} />
+                ) : (
+                  <Link key={item.href} href={item.href || "/"}>
+                    {item.prefix}
+                    {session?.user?.name}
+                  </Link>
+                )
+              )}
             </>
-          )}
-          {!session && (
-            <>
-              <Link href={"/login"}>Sign In</Link>
-            </>
+          ) : (
+            NAVIGATION.authNav.unauthenticated.map((item) => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+              </Link>
+            ))
           )}
         </nav>
       </div>

@@ -43,23 +43,26 @@ interface ButtonLinkParams {
 }
 
 function buttonLink({ key, value }: ButtonLinkParams): string {
-  if (key === "mobile") {
-    return "tel:" + value;
-  }
-  if (key === "email") {
-    return "mailto:" + value;
-  }
+  if (key === "mobile") return "tel:" + value;
+  if (key === "email") return "mailto:" + value;
   return value;
 }
 
 interface UserPageParams {
-  uri: string;
+  params: { uri: string };
 }
 
-export default async function UserPage({ params }: { params: UserPageParams }) {
-  const uri = params.uri;
-  mongoose.connect(process.env.MONGO_URI!);
+export default async function UserPage({ params }: { params: UserPageParams["params"] }) {
+  const { uri } = params;
+
+  await mongoose.connect(process.env.MONGO_URI!);
+
   const page = await Page.findOne({ uri });
+  if (!page) {
+    // Optional: return a 404 page if page not found
+    return <div className="text-center text-white">Page not found</div>;
+  }
+
   const user = await User.findOne({ email: page.owner });
   await Event.create({ uri: uri, page: uri, type: "view" });
 
@@ -76,7 +79,7 @@ export default async function UserPage({ params }: { params: UserPageParams }) {
       <div className="aspect-square w-36 h-36 mx-auto relative -top-16 -mb-12">
         <Image
           className="rounded-full w-full h-full object-cover"
-          src={user.image}
+          src={user?.image || "/default.png"}
           alt="avatar"
           width={256}
           height={256}
@@ -90,23 +93,33 @@ export default async function UserPage({ params }: { params: UserPageParams }) {
       <div className="max-w-xs mx-auto text-center my-2">
         <p>{page.bio}</p>
       </div>
-      <div className="flex gap-2 justify-center mt-4 pb-4">
-        {Object.keys(page.buttons).map((buttonKey) => (
-          <Link
-            key={buttonKey}
-            href={buttonLink({ key: buttonKey, value: page.buttons[buttonKey] })}
-            className="rounded-full bg-white text-blue-950 p-2 flex items-center justify-center"
-          >
-            <FontAwesomeIcon
-              className="w-5 h-5"
-              icon={buttonsIcons[buttonKey as keyof typeof buttonsIcons]}
-            />
-          </Link>
-        ))}
-      </div>
-      
+
+      {/* 🔥 Issue 2 Fix: Ensure page.buttons exists */}
+      {page.buttons && (
+        <div className="flex gap-2 justify-center mt-4 pb-4">
+          {Object.keys(page?.buttons ?? {}).map((buttonKey) => (
+            <Link
+              key={buttonKey}
+              href={buttonLink({
+                key: buttonKey,
+                value: page.buttons[buttonKey],
+              })}
+              className="rounded-full bg-white text-blue-950 p-2 flex items-center justify-center"
+            >
+              <FontAwesomeIcon
+                className="w-5 h-5"
+                icon={
+                  buttonsIcons[buttonKey as keyof typeof buttonsIcons] ||
+                  faLink
+                }
+              />
+            </Link>
+          ))}
+        </div>
+      )}
+
       <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-6 p-4 px-8">
-        {page.links.map((link: PageLink) => (
+        {page.links?.map((link: PageLink) => (
           <Link
             key={link.url}
             target="_blank"
@@ -122,7 +135,7 @@ export default async function UserPage({ params }: { params: UserPageParams }) {
           >
             <div className="relative -left-4 overflow-hidden w-16">
               <div className="w-16 h-16 bg-blue-700 aspect-square relative flex items-center justify-center">
-                {link.icon && (
+                {link.icon ? (
                   <Image
                     className="w-full h-full object-cover"
                     src={link.icon}
@@ -130,8 +143,7 @@ export default async function UserPage({ params }: { params: UserPageParams }) {
                     width={64}
                     height={64}
                   />
-                )}
-                {!link.icon && (
+                ) : (
                   <FontAwesomeIcon icon={faLink} className="w-8 h-8" />
                 )}
               </div>
