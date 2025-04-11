@@ -8,7 +8,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { AppSidebar } from "@/components/layout/Sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import Link from "next/link";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -37,20 +36,11 @@ export default async function AppTemplate({
       <body className={lato.className}>
         <Toaster />
         <SidebarProvider>
-          <AppSidebar />
+          <AppSidebar page={page} />
           <main className="md:flex min-h-screen">
             <SidebarTrigger />
-            {page && (
-              <Link
-                target="_blank"
-                href={"/" + page.uri}
-                className="text-center mt-4 flex gap-1 items-center justify-center"
-              >
-                <span className="text-xl text-gray-300">/</span>
-                <span>{page.uri}</span>
-              </Link>
-            )}
-            {children}
+
+            <div>{children}</div>
           </main>
         </SidebarProvider>
       </body>

@@ -11,36 +11,39 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-// Menu items.
-const items = [
-    {
-        title: "Home",
-        url: "#",
-        icon: Home,
-    },
-    {
-        title: "Inbox",
-        url: "#",
-        icon: Inbox,
-    },
-    {
-        title: "Calendar",
-        url: "#",
-        icon: Calendar,
-    },
-    {
-        title: "Search",
-        url: "#",
-        icon: Search,
-    },
-    {
-        title: "Settings",
-        url: "#",
-        icon: Settings,
-    },
-]
+export function AppSidebar({ page }) {
+    console.log("🚀 ~ AppSidebar ~ page:", page)
 
-export function AppSidebar() {
+    // Menu items.
+    const items = [
+        {
+            title: "Home",
+            url: "#",
+            icon: Home,
+        },
+        {
+            title: "Inbox",
+            url: "#",
+            icon: Inbox,
+        },
+        {
+            title: "Calendar",
+            url: "#",
+            icon: Calendar,
+        },
+        {
+            title: "Search",
+            url: "#",
+            icon: Search,
+        },
+        {
+            title: "Settings",
+            url: "#",
+            icon: Settings,
+        },
+    ]
+
+
     return (
         <Sidebar>
             <SidebarContent>
