@@ -36,7 +36,7 @@ export default async function Template({
       <body className={lato.className}>
         <Toaster />
         <SidebarProvider>
-          <main className="md:flex min-h-screen">
+          <main className="md:flex min-h-screen w-full">
             <AppSidebar page={page} session={session} />
             <SidebarTrigger className="mt-4 cursor-pointer" size="icon" />
 

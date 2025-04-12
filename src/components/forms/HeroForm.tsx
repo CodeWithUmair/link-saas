@@ -1,11 +1,11 @@
 "use client";
 
-import { CustomSession } from "@/types";
+import { Session } from "next-auth";
 import { signIn } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 interface HeroFormProps {
-  user: CustomSession | null;
+  user: Session | null;
 }
 
 const HeroForm: React.FC<HeroFormProps> = ({ user }) => {

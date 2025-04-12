@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import Image from "next/image"
-import { CustomSession } from "@/types"
+import { Session } from "next-auth"
 
 type AppSidebarProps = {
     page?: {
         uri: string
     }
-    session?: CustomSession
+    session?: Session
 }
 
 export function AppSidebar({ page, session }: AppSidebarProps) {

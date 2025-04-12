@@ -1,7 +1,7 @@
-import { Lato } from "next/font/google";
+// import { Lato } from "next/font/google";
 import "../../globals.css";
 
-const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
+// const lato = Lato({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata = {
   title: "Create Next App",
@@ -15,12 +15,12 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en">
-      <body className={lato.className}>
+    // <html lang="en">
+    //   <body className={lato.className}>
         <main>
           <div className="max-w-full w-full">{children}</div>
         </main>
-      </body>
-    </html>
+    //   </body>
+    // </html>
   );
 }

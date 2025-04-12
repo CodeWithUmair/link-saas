@@ -1,15 +1,4 @@
 import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { Session as NextAuthSession } from "next-auth"
-
-export interface CustomSession extends NextAuthSession {
-    user?: {
-        name?: string | null
-        email?: string | null
-        image?: string | null
-        // add custom fields below if needed
-        role?: string
-    }
-}
 
 export interface PageLink {
     title: string;
