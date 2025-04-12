@@ -14,9 +14,9 @@ export default function AppSidebar() {
   return (
     <nav className="inline-flex mx-auto flex-col text-center mt-8 gap-2 text-gray-500">
       <Link
-        href={"/account"}
+        href={"/dashboard/account"}
         className={
-          "flex gap-4 p-2 " + (path === "/account" ? "text-blue-500" : "")
+          "flex gap-4 p-2 " + (path === "/dashboard/account" ? "text-blue-500" : "")
         }
       >
         <FontAwesomeIcon

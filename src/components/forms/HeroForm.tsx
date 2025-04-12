@@ -18,7 +18,7 @@ const HeroForm: React.FC<HeroFormProps> = ({ user }) => {
     ) {
       const username = window.localStorage.getItem("desiredUsername");
       window.localStorage.removeItem("desiredUsername");
-      redirect("/account?desiredUsername=" + username);
+      redirect("/dashboard/account?desiredUsername=" + username);
     }
   }, []);
 
@@ -31,7 +31,7 @@ const HeroForm: React.FC<HeroFormProps> = ({ user }) => {
 
     if (username.length > 0) {
       if (user) {
-        router.push(`/account?desiredUsername=${username}`);
+        router.push(`/dashboard/account?desiredUsername=${username}`);
       } else {
         window.localStorage.setItem('desiredUsername', username);
         await signIn('google');

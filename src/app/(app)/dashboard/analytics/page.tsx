@@ -20,6 +20,7 @@ export default async function AnalyticsPage() {
   }
   const page = await Page.findOne({ owner: session?.user?.email });
 
+  console.log("🚀 ~ AnalyticsPage ~ page:", page)
   const groupedViews = await Event.aggregate([
     {
       $match: {

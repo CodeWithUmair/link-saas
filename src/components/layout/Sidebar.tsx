@@ -52,10 +52,10 @@ export function AppSidebar({ page, session }: AppSidebarProps) {
                         </Link>
                     )}
 
-                    <div className="my-5" />
+                    <div className="my-3" />
 
                     {items.map((item) => (
-                        <SidebarMenuItem key={item.title}>
+                        <SidebarMenuItem key={item.title} className="px-2">
                             <SidebarMenuButton asChild>
                                 <Link href={item.url}>
                                     <item.icon />
@@ -64,7 +64,7 @@ export function AppSidebar({ page, session }: AppSidebarProps) {
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     ))}
-                    <Link href={'/'} className="flex items-center gap-2 text-xs text-gray-500 border-t pt-4">
+                    <Link href={'/'} className="flex px-4 items-center gap-2 text-xs text-gray-500 border-t pt-4">
                         <span>Back to website</span>
                     </Link>
                 </SidebarMenu>

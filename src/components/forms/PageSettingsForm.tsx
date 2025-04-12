@@ -45,10 +45,9 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
   }
 
   async function handleCoverImageChange(ev: React.ChangeEvent<HTMLInputElement>) {
-    const asd = await upload(ev, (link) => {
+    await upload(ev, (link) => {
       setBgImage(link);
     });
-    console.log("🚀 ~ asd ~ asd:", asd)
   }
   async function handleAvatarImageChange(ev: React.ChangeEvent<HTMLInputElement>) {
     await upload(ev, (link) => {

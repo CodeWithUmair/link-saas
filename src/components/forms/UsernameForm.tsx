@@ -18,7 +18,7 @@ export default function UsernameForm({ desiredUsername }: UsernameFormProps) {
 
     setTaken(result === false);
     if (result) {
-      redirect('/account?created=' + formData.get('username'));
+      redirect('/dashboard/account?created=' + formData.get('username'));
     }
   }
   return (
