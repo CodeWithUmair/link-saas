@@ -9,8 +9,16 @@ import {
 } from "@/components/ui/sidebar"
 import Link from "next/link"
 import Image from "next/image"
+import { CustomSession } from "@/types"
 
-export function AppSidebar({ page, session }) {
+type AppSidebarProps = {
+    page?: {
+        uri: string
+    }
+    session?: CustomSession
+}
+
+export function AppSidebar({ page, session }: AppSidebarProps) {
     console.log("🚀 ~ AppSidebar ~ page:", page)
 
     // Menu items.
@@ -32,7 +40,7 @@ export function AppSidebar({ page, session }) {
             <SidebarContent className="rounded-xl">
                 <SidebarMenu className="p-4 py-6">
                     <div className="rounded-full overflow-hidden aspect-square w-24 mx-auto">
-                        <Image src={session?.user?.image} width={256} height={256} alt={'avatar'} />
+                        <Image src={session?.user?.image || "/"} width={256} height={256} alt={'avatar'} />
                     </div>
                     {page && (
                         <Link

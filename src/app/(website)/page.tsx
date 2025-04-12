@@ -1,10 +1,10 @@
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import HeroForm from "@/components/forms/HeroForm";
-import { Session } from "@/types";
+import { CustomSession } from "@/types";
 import { getServerSession } from "next-auth";
 
 export default async function Home() {
-  const session = (await getServerSession(authOptions)) as Session | null;
+  const session = (await getServerSession(authOptions)) as CustomSession | null;
 
   return (
     <main>

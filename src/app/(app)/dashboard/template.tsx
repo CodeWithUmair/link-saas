@@ -37,7 +37,7 @@ export default async function Template({
         <Toaster />
         <SidebarProvider>
           <main className="md:flex min-h-screen">
-          <AppSidebar page={page} session={session} />
+            <AppSidebar page={page} session={session} />
             <SidebarTrigger className="mt-4 cursor-pointer" size="icon" />
 
             <div className="grow">{children}</div>
