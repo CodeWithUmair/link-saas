@@ -21,18 +21,16 @@ interface ItemInterface extends FormLink {
 }
 
 const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
-
-  const [links, setLinks] = useState<ItemInterface[]>(page.links?.map(link => ({
-    ...link,
-    id: link.key,
-  })) || []);
-  console.log("🚀 ~ links:", links)
+  const [links, setLinks] = useState<ItemInterface[]>(
+    page.links?.map(link =>
+      typeof link === 'string' ? { ...JSON.parse(link), id: JSON.parse(link).key } : { ...link, id: link.key }
+    ) || []
+  );
 
   async function save() {
     await savePageLinks(links); // Pass only keys as strings
     toast.success('Saved!');
   }
-  
 
   function addNewLink() {
     setLinks(prev => [
