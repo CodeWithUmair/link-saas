@@ -43,13 +43,16 @@ export function AppSidebar({ page, session }) {
                             <span>{page.uri}</span>
                         </Link>
                     )}
+
+                    <div className="my-5" />
+
                     {items.map((item) => (
                         <SidebarMenuItem key={item.title}>
                             <SidebarMenuButton asChild>
-                                <a href={item.url}>
+                                <Link href={item.url}>
                                     <item.icon />
                                     <span>{item.title}</span>
-                                </a>
+                                </Link>
                             </SidebarMenuButton>
                         </SidebarMenuItem>
                     ))}
