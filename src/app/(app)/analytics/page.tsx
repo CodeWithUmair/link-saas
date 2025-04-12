@@ -51,7 +51,7 @@ export default async function AnalyticsPage() {
   });
 
   return (
-    <div>
+    <>
       <SectionBox>
         <h2 className="text-xl mb-6 text-center">Views</h2>
         <Chart
@@ -111,6 +111,6 @@ export default async function AnalyticsPage() {
           </div>
         ))}
       </SectionBox>
-    </div>
+      </>
   );
 }
