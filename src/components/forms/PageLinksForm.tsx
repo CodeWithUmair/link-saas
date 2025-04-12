@@ -48,15 +48,11 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
 
   function handleUpload(ev: React.ChangeEvent<HTMLInputElement>, linkKeyForUpload: string) {
     upload(ev, uploadedImageUrl => {
-      setLinks(prevLinks => {
-        const newLinks = [...prevLinks];
-        newLinks.forEach((link) => {
-          if (link.key === linkKeyForUpload) {
-            link.icon = uploadedImageUrl;
-          }
-        });
-        return newLinks;
-      });
+      setLinks(prev =>
+        prev.map(link =>
+          link.key === linkKeyForUpload ? { ...link, icon: uploadedImageUrl } : link
+        )
+      );
     });
   }
 
@@ -98,7 +94,7 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
             handle={'.handle'}
             list={links} setList={setLinks}>
             {links.map(l => (
-              <div key={l.key} className="mt-8 md:flex gap-6 items-center">
+              <div key={l.id} className="mt-8 md:flex gap-6 items-center">
                 <div className="handle">
                   <FontAwesomeIcon
                     className="text-gray-500 mr-2 cursor-ns-resize"
