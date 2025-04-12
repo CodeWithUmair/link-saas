@@ -39,8 +39,8 @@ export function AppSidebar({ page, session }: AppSidebarProps) {
         <Sidebar>
             <SidebarContent className="rounded-xl">
                 <SidebarMenu className="p-4 py-6">
-                    <div className="rounded-full overflow-hidden aspect-square w-24 mx-auto">
-                        <Image src={session?.user?.image || "/"} width={256} height={256} alt={'avatar'} />
+                    <div className="rounded-full overflow-hidden aspect-square w-24 mx-auto bg-foreground">
+                        <Image src={session?.user?.image || ""} width={256} height={256} alt={'avatar'} />
                     </div>
                     {page && (
                         <Link

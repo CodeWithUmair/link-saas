@@ -97,67 +97,73 @@ export default async function UserPage({ params }: { params: UserPageParams["par
       {/* 🔥 Issue 2 Fix: Ensure page.buttons exists */}
       {page.buttons && (
         <div className="flex gap-2 justify-center mt-4 pb-4">
-          {Object.keys(page?.buttons ?? {}).map((buttonKey) => (
-            <Link
-              key={buttonKey}
-              href={buttonLink({
-                key: buttonKey,
-                value: page.buttons[buttonKey],
-              })}
-              className="rounded-full bg-white text-blue-950 p-2 flex items-center justify-center"
-            >
-              <FontAwesomeIcon
-                className="w-5 h-5"
-                icon={
-                  buttonsIcons[buttonKey as keyof typeof buttonsIcons] ||
-                  faLink
-                }
-              />
-            </Link>
-          ))}
+          {Object.keys(page?.buttons ?? {}).map((buttonKey) => {
+            const value = page.buttons[buttonKey];
+            const href = buttonLink({ key: buttonKey, value });
+
+            if (!href) return null; // 🔥 avoid rendering if href is invalid
+
+            return (
+              <Link
+                key={buttonKey}
+                href={href}
+                className="rounded-full bg-white text-blue-950 p-2 flex items-center justify-center"
+              >
+                <FontAwesomeIcon
+                  className="w-5 h-5"
+                  icon={buttonsIcons[buttonKey as keyof typeof buttonsIcons] || faLink}
+                />
+              </Link>
+            );
+          })}
         </div>
       )}
 
       <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-6 p-4 px-8">
-        {page.links?.map((link: PageLink) => (
-          <Link
-            key={link.url}
-            target="_blank"
-            ping={
-              process.env.URL +
-              "api/click?url=" +
-              btoa(link.url) +
-              "&page=" +
-              page.uri
-            }
-            className="bg-indigo-800 p-2 flex"
-            href={link.url}
-          >
-            <div className="relative -left-4 overflow-hidden w-16">
-              <div className="w-16 h-16 bg-blue-700 aspect-square relative flex items-center justify-center">
-                {link.icon ? (
-                  <Image
-                    className="w-full h-full object-cover"
-                    src={link.icon}
-                    alt={"icon"}
-                    width={64}
-                    height={64}
-                  />
-                ) : (
-                  <FontAwesomeIcon icon={faLink} className="w-8 h-8" />
-                )}
+        {page.links?.map((link: PageLink, index: number) => {
+          if (!link.url) return null; // 🔥 skip invalid entries
+
+          return (
+            <Link
+              key={`${link.url}-${index}`}
+              target="_blank"
+              href={link.url}
+              ping={
+                process.env.URL +
+                "api/click?url=" +
+                btoa(link.url) +
+                "&page=" +
+                page.uri
+              }
+              className="bg-indigo-800 p-2 flex"
+            >
+              <div className="relative -left-4 overflow-hidden w-16">
+                <div className="w-16 h-16 bg-blue-700 aspect-square relative flex items-center justify-center">
+                  {link.icon ? (
+                    <Image
+                      className="w-full h-full object-cover"
+                      src={link.icon}
+                      alt={"icon"}
+                      width={64}
+                      height={64}
+                    />
+                  ) : (
+                    <FontAwesomeIcon icon={faLink} className="w-8 h-8" />
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="flex items-center justify-center shrink grow-0 overflow-hidden">
-              <div>
-                <h3>{link.title}</h3>
-                <p className="text-white/50 h-6 overflow-hidden">
-                  {link.subtitle}
-                </p>
+              <div className="flex items-center justify-center shrink grow-0 overflow-hidden">
+                <div>
+                  <h3>{link.title}</h3>
+                  <p className="text-white/50 h-6 overflow-hidden">
+                    {link.subtitle}
+                  </p>
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          );
+        })}
+
       </div>
     </div>
   );

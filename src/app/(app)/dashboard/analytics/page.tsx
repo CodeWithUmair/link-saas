@@ -79,7 +79,7 @@ export default async function AnalyticsPage() {
               <a
                 className="text-xs text-blue-400"
                 target="_blank"
-                href="link.url"
+                href={link.url}
               >
                 {link.url}
               </a>
@@ -111,6 +111,6 @@ export default async function AnalyticsPage() {
           </div>
         ))}
       </SectionBox>
-      </>
+    </>
   );
 }
