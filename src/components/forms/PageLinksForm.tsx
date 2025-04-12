@@ -26,11 +26,13 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
     ...link,
     id: link.key,
   })) || []);
+  console.log("🚀 ~ links:", links)
 
   async function save() {
-    await savePageLinks(links.map(link => JSON.stringify(link)));
+    await savePageLinks(links); // Pass only keys as strings
     toast.success('Saved!');
   }
+  
 
   function addNewLink() {
     setLinks(prev => [
@@ -61,6 +63,8 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
     prop: keyof FormLink,
     ev: React.ChangeEvent<HTMLInputElement>
   ) {
+    console.log("🚀 ~ prop:", prop)
+    console.log("🚀 ~ keyOfLinkToChange:", keyOfLinkToChange)
     setLinks(prev => {
       const newLinks = [...prev];
       newLinks.forEach((link) => {

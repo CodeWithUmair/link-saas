@@ -3,6 +3,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Page } from "@/models/Page";
 import { User } from "@/models/User";
+import { FormLink } from "@/types";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 
@@ -76,7 +77,7 @@ export async function savePageButtons(formData: FormData) {
   return false;
 }
 
-export async function savePageLinks(links: string[]) {
+export async function savePageLinks(links: FormLink[]) {
   mongoose.connect(process.env.MONGO_URI!);
   const session = await getServerSession(authOptions);
 
