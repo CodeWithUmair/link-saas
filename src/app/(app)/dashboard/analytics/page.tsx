@@ -19,8 +19,7 @@ export default async function AnalyticsPage() {
     return redirect("/");
   }
   const page = await Page.findOne({ owner: session?.user?.email });
-
-  console.log("🚀 ~ AnalyticsPage ~ page:", page)
+  
   const groupedViews = await Event.aggregate([
     {
       $match: {

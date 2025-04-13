@@ -36,7 +36,6 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
   const [bgColor, setBgColor] = useState(page.bgColor);
   const [bgImage, setBgImage] = useState(page.bgImage);
   const [avatar, setAvatar] = useState(user?.image);
-  console.log("🚀 ~ PageSettingsForm ~ avatar:", avatar)
 
   async function saveBaseSettings(formData: FormData) {
     const result = await savePageSettings(formData);

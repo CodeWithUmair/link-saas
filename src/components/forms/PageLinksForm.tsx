@@ -88,7 +88,7 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
           onClick={addNewLink}
           type="button"
           className="text-blue-500 text-lg flex gap-2 items-center cursor-pointer">
-          <FontAwesomeIcon className="bg-blue-500 text-white p-1 rounded-full aspect-square" icon={faPlus} />
+          <FontAwesomeIcon className="bg-blue-500 text-background p-1 rounded-full aspect-square" icon={faPlus} />
           <span>Add new</span>
         </button>
         <div className="">

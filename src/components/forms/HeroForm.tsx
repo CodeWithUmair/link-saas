@@ -42,9 +42,9 @@ const HeroForm: React.FC<HeroFormProps> = ({ user }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="inline-flex items-center shadow-lg bg-white shadow-gray-500/20"
+      className="inline-flex items-center shadow-lg bg-background shadow-gray-500/20"
     >
-      <span className="bg-white py-4 pl-4 whitespace-nowrap">um-saas.to/</span>
+      <span className="bg-background py-4 pl-4 whitespace-nowrap">um-saas.to/</span>
       <input
         type="text"
         className="focus-visible:border-0 focus:border-0"
@@ -53,7 +53,7 @@ const HeroForm: React.FC<HeroFormProps> = ({ user }) => {
       />
       <button
         type="submit"
-        className="bg-blue-500 text-white py-4 px-6 whitespace-nowrap"
+        className="bg-blue-500 text-background py-4 px-6 whitespace-nowrap"
       >
         Join for Free
       </button>

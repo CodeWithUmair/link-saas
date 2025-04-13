@@ -60,14 +60,14 @@ export default async function UserPage({ params }: { params: UserPageParams["par
   const page = await Page.findOne({ uri });
   if (!page) {
     // Optional: return a 404 page if page not found
-    return <div className="text-center text-white">Page not found</div>;
+    return <div className="text-center text-background">Page not found</div>;
   }
 
   const user = await User.findOne({ email: page.owner });
   await Event.create({ uri: uri, page: uri, type: "view" });
 
   return (
-    <div className="bg-blue-950 text-white min-h-screen">
+    <div className="bg-blue-950 text-background min-h-screen">
       <div
         className="h-36 bg-gray-400 bg-cover bg-center"
         style={
@@ -86,7 +86,7 @@ export default async function UserPage({ params }: { params: UserPageParams["par
         />
       </div>
       <h2 className="text-2xl text-center mb-1">{page.displayName}</h2>
-      <h3 className="text-md flex gap-2 justify-center items-center text-white/70">
+      <h3 className="text-md flex gap-2 justify-center items-center text-background/70">
         <FontAwesomeIcon className="h-4" icon={faLocationDot} />
         <span>{page.location}</span>
       </h3>
@@ -107,7 +107,7 @@ export default async function UserPage({ params }: { params: UserPageParams["par
               <Link
                 key={buttonKey}
                 href={href}
-                className="rounded-full bg-white text-blue-950 p-2 flex items-center justify-center"
+                className="rounded-full bg-background text-blue-950 p-2 flex items-center justify-center"
               >
                 <FontAwesomeIcon
                   className="w-5 h-5"
@@ -155,7 +155,7 @@ export default async function UserPage({ params }: { params: UserPageParams["par
               <div className="flex items-center justify-center shrink grow-0 overflow-hidden">
                 <div>
                   <h3>{link.title}</h3>
-                  <p className="text-white/50 h-6 overflow-hidden">
+                  <p className="text-background/50 h-6 overflow-hidden">
                     {link.subtitle}
                   </p>
                 </div>
