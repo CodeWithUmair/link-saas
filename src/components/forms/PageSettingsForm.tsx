@@ -36,6 +36,10 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
   const [bgColor, setBgColor] = useState(page.bgColor);
   const [bgImage, setBgImage] = useState(page.bgImage);
   const [avatar, setAvatar] = useState(user?.image);
+  const [displayName, setDisplayName] = useState(page.displayName || "");
+  const [location, setLocation] = useState(page.location || "");
+  const [bio, setBio] = useState(page.bio || "");
+
 
   async function saveBaseSettings(formData: FormData) {
     const result = await savePageSettings(formData);
@@ -59,7 +63,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
     <SectionBox>
       <form action={saveBaseSettings}>
         <div
-          className="py-4 -m-4 min-h-[300px] flex justify-center items-center bg-cover bg-center"
+          className="py-4 -m-4 min-h-[300px] flex rounded-t-xl justify-center items-center bg-cover bg-center"
           style={
             bgType === "color"
               ? { backgroundColor: bgColor }
@@ -90,7 +94,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             )}
             {bgType === "image" && (
               <div className="flex justify-center">
-                <label className="bg-white shadow px-4 py-2 mt-2 flex gap-2">
+                <label className="bg-background shadow px-4 py-2 mt-2 flex gap-2">
                   <input type="hidden" name="bgImage" value={bgImage} />
                   <input
                     type="file"
@@ -111,7 +115,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
         </div>
         <div className="flex justify-center -mb-12">
           <div className="relative -top-8 w-[128px] h-[128px]">
-            <div className="overflow-hidden h-full rounded-full border-4 border-white shadow shadow-black/50">
+            <div className="overflow-hidden h-full rounded-full border-4 border-background shadow shadow-foreground/50">
               <Image
                 className="w-full h-full object-cover"
                 src={avatar || "/default-avatar.png"}
@@ -122,7 +126,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             </div>
             <label
               htmlFor="avatarIn"
-              className="absolute bottom-0 -right-2 bg-white p-2 rounded-full shadow shadow-black/50 aspect-square flex items-center cursor-pointer"
+              className="absolute bottom-0 -right-2 bg-background p-2 rounded-full shadow shadow-foreground/50 aspect-square flex items-center cursor-pointer"
             >
               <FontAwesomeIcon size={"xl"} icon={faCloudArrowUp} />
             </label>
@@ -143,7 +147,8 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             type="text"
             id="nameIn"
             name="displayName"
-            defaultValue={page.displayName}
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
             placeholder="John Doe"
           />
           <label className="input-label" htmlFor="locationIn">
@@ -153,7 +158,8 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             type="text"
             id="locationIn"
             name="location"
-            defaultValue={page.location}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             placeholder="Somewhere in the world"
           />
           <label className="input-label" htmlFor="bioIn">
@@ -161,7 +167,8 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
           </label>
           <textarea
             name="bio"
-            defaultValue={page.bio}
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
             id="bioIn"
             placeholder="Your bio goes here..."
           />
