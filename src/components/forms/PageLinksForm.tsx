@@ -61,8 +61,6 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
     prop: keyof FormLink,
     ev: React.ChangeEvent<HTMLInputElement>
   ) {
-    console.log("🚀 ~ prop:", prop)
-    console.log("🚀 ~ keyOfLinkToChange:", keyOfLinkToChange)
     setLinks(prev => {
       const newLinks = [...prev];
       newLinks.forEach((link) => {
@@ -87,8 +85,8 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
         <button
           onClick={addNewLink}
           type="button"
-          className="text-blue-500 text-lg flex gap-2 items-center cursor-pointer">
-          <FontAwesomeIcon className="bg-blue-500 text-background p-1 rounded-full aspect-square" icon={faPlus} />
+          className="text-primary text-lg flex gap-2 items-center cursor-pointer">
+          <FontAwesomeIcon className="bg-primary text-background p-1 rounded-full aspect-square" icon={faPlus} />
           <span>Add new</span>
         </button>
         <div className="">

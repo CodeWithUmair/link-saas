@@ -53,7 +53,7 @@ const HeroForm: React.FC<HeroFormProps> = ({ user }) => {
       />
       <button
         type="submit"
-        className="bg-blue-500 text-background py-4 px-6 whitespace-nowrap"
+        className="bg-primary text-background py-4 px-6 whitespace-nowrap"
       >
         Join for Free
       </button>

@@ -10,13 +10,13 @@ import Link from "next/link";
 
 export default function AppSidebar() {
   const path = usePathname();
-  
+
   return (
     <nav className="inline-flex mx-auto flex-col text-center mt-8 gap-2 text-gray-500">
       <Link
         href={"/dashboard/account"}
         className={
-          "flex gap-4 p-2 " + (path === "/dashboard/account" ? "text-blue-500" : "")
+          "flex gap-4 p-2 " + (path === "/dashboard/account" ? "text-primary" : "")
         }
       >
         <FontAwesomeIcon
@@ -29,7 +29,7 @@ export default function AppSidebar() {
       <Link
         href={"/analytics"}
         className={
-          "flex gap-4 p-2 " + (path === "/analytics" ? "text-blue-500" : "")
+          "flex gap-4 p-2 " + (path === "/analytics" ? "text-primary" : "")
         }
       >
         <FontAwesomeIcon
