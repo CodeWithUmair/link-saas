@@ -38,7 +38,7 @@ export default async function AccountPage({ searchParams }: { searchParams: { de
   if (page) {
     return (
       <>
-        <PageSettingsForm page={leanPage} user={{ image: session.user?.image ?? "" }} />
+        <PageSettingsForm page={leanPage} user={{ image: session.user?.image ?? "/images.png" }} />
         <PageButtonsForm page={leanPage} />
         <PageLinksForm page={leanPage} />
       </>
