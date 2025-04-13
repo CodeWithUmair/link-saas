@@ -21,6 +21,7 @@ interface ItemInterface extends FormLink {
 }
 
 const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [links, setLinks] = useState<ItemInterface[]>(
     page.links?.map(link =>
       typeof link === 'string' ? { ...JSON.parse(link), id: JSON.parse(link).key } : { ...link, id: link.key }
@@ -28,7 +29,13 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
   );
 
   async function save() {
-    await savePageLinks(links); // Pass only keys as strings
+    const hasErrors = Object.values(errors).some(err => err);
+    if (hasErrors) {
+      toast.error('Please fix errors before saving.');
+      return;
+    }
+
+    await savePageLinks(links);
     toast.success('Saved!');
   }
 
@@ -61,13 +68,26 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
     prop: keyof FormLink,
     ev: React.ChangeEvent<HTMLInputElement>
   ) {
+    const value = ev.target.value;
     setLinks(prev => {
       const newLinks = [...prev];
       newLinks.forEach((link) => {
         if (link.key === keyOfLinkToChange) {
-          link[prop] = ev.target.value;
+          link[prop] = value;
         }
       });
+
+      // Check for duplicate titles
+      if (prop === 'title') {
+        const duplicate = newLinks.some(
+          (link) => link.key !== keyOfLinkToChange && link.title === value
+        );
+        setErrors(prevErrors => ({
+          ...prevErrors,
+          [keyOfLinkToChange]: duplicate ? 'Title must be unique' : '',
+        }));
+      }
+
       return newLinks;
     });
   }
@@ -77,6 +97,8 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
       prevLinks.filter(l => l.key !== linkKeyToRemove)
     );
   }
+
+  const hasErrors = Object.values(errors).some(err => err);
 
   return (
     <SectionBox>
@@ -135,8 +157,16 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
                   <label className="input-label">Title:</label>
                   <input
                     value={l.title}
+                    required
                     onChange={ev => handleLinkChange(l.key, 'title', ev)}
-                    type="text" placeholder="title" />
+                    type="text"
+                    placeholder="title"
+                    className={`border ${errors[l.key] ? 'border-destructive' : ''}`}
+                  />
+                  {errors[l.key] && (
+                    <p className="text-destructive text-sm mt-1">{errors[l.key]}</p>
+                  )}
+
                   <label className="input-label">Subtitle:</label>
                   <input
                     value={l.subtitle}
@@ -145,6 +175,7 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
                   <label className="input-label">URL:</label>
                   <input
                     value={l.url}
+                    required
                     onChange={ev => handleLinkChange(l.key, 'url', ev)}
                     type="text" placeholder="url" />
                 </div>
@@ -153,10 +184,14 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
           </ReactSortable>
         </div>
         <div className="border-t pt-4 mt-4">
-          <SubmitButton className="max-w-xs mx-auto">
+          <SubmitButton
+            className="max-w-xs mx-auto"
+            disabled={hasErrors}
+          >
             <FontAwesomeIcon icon={faSave} />
             <span>Save</span>
           </SubmitButton>
+
         </div>
       </form>
     </SectionBox>

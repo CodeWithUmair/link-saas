@@ -77,7 +77,7 @@ export default async function AnalyticsPage() {
                 {link.subtitle || "no description"}
               </p>
               <a
-                className="text-xs text-blue-400"
+                className="text-xs text-primary/70"
                 target="_blank"
                 href={link.url}
               >
