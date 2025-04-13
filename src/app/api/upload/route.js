@@ -8,7 +8,7 @@ export async function POST(req) {
     const file = formData.get('file');
 
     const s3Client = new S3Client({
-      region: 'eu-east-1', // ✅ Correct S3 bucket region is 👉 eu-north-1 
+      region: 'eu-north-1', // ✅ Correct S3 bucket region is 👉 eu-north-1 
       credentials: {
         accessKeyId: process.env.S3_ACCESS_KEY,
         secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
