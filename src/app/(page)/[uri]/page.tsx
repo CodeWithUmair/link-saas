@@ -62,6 +62,7 @@ export default async function UserPage({ params }: { params: UserPageParams["par
     // Optional: return a 404 page if page not found
     return <div className="text-center text-background">Page not found</div>;
   }
+  console.log("🚀 ~ UserPage ~ page:", page)
 
   const user = await User.findOne({ email: page.owner });
   await Event.create({ uri: uri, page: uri, type: "view" });
@@ -69,7 +70,7 @@ export default async function UserPage({ params }: { params: UserPageParams["par
   return (
     <div className="bg-blue-950 text-background min-h-screen">
       <div
-        className="h-36 bg-gray-400 bg-cover bg-center"
+        className="h-40 2xl:h-60 bg-gray-400 bg-cover bg-center"
         style={
           page.bgType === "color"
             ? { backgroundColor: page.bgColor }
