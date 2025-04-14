@@ -19,10 +19,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mongoose from "mongoose";
-import { btoa } from "next/dist/compiled/@edge-runtime/primitives";
 import Image from "next/image";
 import Link from "next/link";
 import { PageLink } from "@/types";
+import TrackedLink from "@/components/TrackLink";
 
 export const buttonsIcons = {
   email: faEnvelope,
@@ -124,43 +124,12 @@ export default async function UserPage({ params }: { params: UserPageParams["par
           if (!link.url) return null; // 🔥 skip invalid entries
 
           return (
-            <Link
+            <TrackedLink
               key={`${link.url}-${index}`}
-              target="_blank"
-              href={link.url}
-              ping={
-                process.env.URL +
-                "api/click?url=" +
-                btoa(link.url) +
-                "&page=" +
-                page.uri
-              }
-              className="bg-indigo-800 p-2 flex"
-            >
-              <div className="relative -left-4 overflow-hidden w-16">
-                <div className="w-16 h-16 bg-blue-700 aspect-square relative flex items-center justify-center">
-                  {link.icon ? (
-                    <Image
-                      className="w-full h-full object-cover"
-                      src={link.icon}
-                      alt={"icon"}
-                      width={64}
-                      height={64}
-                    />
-                  ) : (
-                    <FontAwesomeIcon icon={faLink} className="w-8 h-8" />
-                  )}
-                </div>
-              </div>
-              <div className="flex items-center justify-center shrink grow-0 overflow-hidden">
-                <div>
-                  <h3>{link.title}</h3>
-                  <p className="text-background/50 h-6 overflow-hidden">
-                    {link.subtitle}
-                  </p>
-                </div>
-              </div>
-            </Link>
+              link={link}
+              pageUri={page.uri}
+              index={index}
+            />
           );
         })}
 
