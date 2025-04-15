@@ -62,7 +62,6 @@ export default async function UserPage({ params }: { params: UserPageParams["par
     // Optional: return a 404 page if page not found
     return <div className="text-center text-background">Page not found</div>;
   }
-  console.log("🚀 ~ UserPage ~ page:", page)
 
   const user = await User.findOne({ email: page.owner });
   await Event.create({ uri: uri, page: uri, type: "view" });
