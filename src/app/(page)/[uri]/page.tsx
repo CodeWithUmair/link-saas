@@ -94,7 +94,6 @@ export default async function UserPage({ params }: { params: UserPageParams["par
         <p>{page.bio}</p>
       </div>
 
-      {/* 🔥 Issue 2 Fix: Ensure page.buttons exists */}
       {page.buttons && (
         <div className="flex gap-2 justify-center mt-4 pb-4">
           {Object.keys(page?.buttons ?? {}).map((buttonKey) => {
