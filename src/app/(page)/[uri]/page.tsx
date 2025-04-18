@@ -52,6 +52,8 @@ interface UserPageParams {
   params: { uri: string };
 }
 
+// will change the emojis because these are so wired
+
 export default async function UserPage({ params }: { params: UserPageParams["params"] }) {
   const { uri } = params;
 
