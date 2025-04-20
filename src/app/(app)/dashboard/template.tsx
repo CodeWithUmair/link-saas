@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import { Page } from "@/models/Page";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { AppSidebar } from "@/components/layout/Sidebar";
+import { AppSidebar } from "@/components/layout/SidebarNew";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
