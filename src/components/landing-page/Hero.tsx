@@ -9,7 +9,7 @@ const Hero = async () => {
     const session = (await getServerSession(authOptions)) as Session | null;
 
     return (
-        <section className="w-full px-4 py-20 min-h-[95dvh] flex flex-col xl:flex-row items-center justify-center text-center bg-background">
+        <section className="w-full px-4 py-20 min-h-[92dvh] flex flex-col xl:flex-row items-center justify-center text-center bg-background">
             <Container className="flex flex-col xl:flex-row items-center justify-between gap-4">
                 <div className="w-full text-left">
                     <h1 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
