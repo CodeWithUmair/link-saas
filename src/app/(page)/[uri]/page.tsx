@@ -2,20 +2,8 @@ import { Page } from "@/models/Page";
 import { User } from "@/models/User";
 import { Event } from "@/models/Event";
 import {
-  faDiscord,
-  faFacebook,
-  faGithub,
-  faInstagram,
-  faTelegram,
-  faTiktok,
-  faWhatsapp,
-  faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-  faEnvelope,
   faLink,
   faLocationDot,
-  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mongoose from "mongoose";
@@ -23,19 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageLink } from "@/types";
 import TrackedLink from "@/components/TrackLink";
-
-export const buttonsIcons = {
-  email: faEnvelope,
-  mobile: faPhone,
-  instagram: faInstagram,
-  facebook: faFacebook,
-  discord: faDiscord,
-  tiktok: faTiktok,
-  youtube: faYoutube,
-  whatsapp: faWhatsapp,
-  github: faGithub,
-  telegram: faTelegram,
-};
+import { buttonsIcons } from "@/libs/button-icons";
 
 interface ButtonLinkParams {
   key: string;
@@ -48,12 +24,10 @@ function buttonLink({ key, value }: ButtonLinkParams): string {
   return value;
 }
 
-interface UserPageParams {
-  params: { uri: string };
-}
+type PageParams = { uri: string };
 
-export default async function UserPage({ params }: { params: UserPageParams["params"] }) {
-  const { uri } = params;
+export default async function UserPage({ params }: { params: Promise<PageParams> }) {
+  const { uri } = await params;
 
   await mongoose.connect(process.env.MONGO_URI!);
 
