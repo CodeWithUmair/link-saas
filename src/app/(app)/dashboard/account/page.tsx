@@ -9,7 +9,13 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import cloneDeep from "clone-deep";
 
-export default async function AccountPage({ searchParams }: { searchParams: { desiredUsername: string } }) {
+interface PageProps {
+  searchParams?: {
+    desiredUsername?: string;
+  };
+}
+
+export default async function AccountPage({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions);
   const desiredUsername = searchParams?.desiredUsername;
 
@@ -47,7 +53,7 @@ export default async function AccountPage({ searchParams }: { searchParams: { de
 
   return (
     <div>
-      <UsernameForm desiredUsername={desiredUsername} />
+      <UsernameForm desiredUsername={desiredUsername ?? ""} />
     </div>
   );
 }
