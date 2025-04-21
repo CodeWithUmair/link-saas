@@ -1,4 +1,3 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import PageButtonsForm from "@/components/forms/PageButtonsForm";
 import PageLinksForm from "@/components/forms/PageLinksForm";
 import PageSettingsForm from "@/components/forms/PageSettingsForm";
@@ -8,6 +7,7 @@ import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import cloneDeep from "clone-deep";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 interface PageProps {
   searchParams?: Promise<{

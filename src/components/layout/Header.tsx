@@ -1,8 +1,8 @@
 import LogoutButton from "@/components/buttons/LogoutButton";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import { NAVIGATION } from "@/constants/nav";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 export default async function Header() {
   const session = await getServerSession(authOptions);

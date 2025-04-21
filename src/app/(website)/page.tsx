@@ -1,9 +1,9 @@
 import HeroForm from "@/components/forms/HeroForm";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession, Session } from "next-auth";
 
 import Image from 'next/image';
 import Container from "@/components/layout/container";
+import { authOptions } from "../api/auth/[...nextauth]/authOptions";
 
 const Hero = async () => {
   const session = (await getServerSession(authOptions)) as Session | null;

@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/libs/mongoClient.js", "src/components/Chart.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/libs/mongoClient.js", "src/components/Chart.tsx", "src/app/api/auth/[...nextauth]/route.js", "src/app/api/auth/[...nextauth]/authOptions.js"],
   "exclude": ["node_modules"]
 }
