@@ -10,14 +10,16 @@ import { redirect } from "next/navigation";
 import cloneDeep from "clone-deep";
 
 interface PageProps {
-  searchParams?: {
+  searchParams?: Promise<{
     desiredUsername?: string;
-  };
+  }>;
 }
 
 export default async function AccountPage({ searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams;
+  const desiredUsername = resolvedSearchParams?.desiredUsername;
+
   const session = await getServerSession(authOptions);
-  const desiredUsername = searchParams?.desiredUsername;
 
   if (!session) {
     return redirect("/");
