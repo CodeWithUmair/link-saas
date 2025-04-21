@@ -1,3 +1,4 @@
+import CTASection from '@/components/landing-page/cta-section'
 import FeaturesSection from '@/components/landing-page/feature-section'
 import Hero from '@/components/landing-page/Hero'
 import HeroSectionOne from '@/components/landing-page/hero-section-one'
@@ -12,6 +13,7 @@ export default function Page() {
       <HeroSectionTwo />
       <FeaturesSection />
       <HeroSectionThree />
+      <CTASection />
     </main>
   )
 }
