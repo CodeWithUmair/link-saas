@@ -63,6 +63,11 @@
   }
 }
 
+
+@theme {
+  --breakpoint-3xl: 96rem;
+}
+
 :root {
   --radius: 0.625rem;
   --card: oklch(1 0 0);
