@@ -75,7 +75,7 @@ export default async function Header() {
               ) : (
                 NAVIGATION.authNav.unauthenticated.map((item) =>
                   item.label === "Sign In" ? (
-                    <Button key={item.href} asChild className="bg-foreground text-white hover:bg-gray-800">
+                    <Button key={item.href} asChild className="bg-foreground text-background hover:bg-gray-800">
                       <Link href={item.href}>{item.label}</Link>
                     </Button>
                   ) : (
