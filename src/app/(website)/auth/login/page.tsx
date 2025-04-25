@@ -9,7 +9,7 @@ export default async function LoginPage() {
   if (session) redirect("/");
 
   return (
-    <div>
+    <div className="3xl:py-40">
       <div className="p-4 max-w-xs mx-auto">
         <h1 className="text-4xl font-bold text-center mb-2">
           Sign In

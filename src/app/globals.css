@@ -157,7 +157,7 @@ label.input-label {
   @apply p-1 bg-gray-200 inline-flex cursor-pointer;
 }
 .radio-togglers div {
-  @apply p-2 px-4 text-gray-500 block flex items-center gap-2 cursor-pointer;
+  @apply p-2 px-4 text-gray-500 flex items-center gap-2 cursor-pointer;
 }
 .radio-togglers input[type="radio"] {
   @apply hidden;
