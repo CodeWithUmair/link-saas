@@ -1,5 +1,6 @@
+// app/login/page.tsx
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import LoginWithGoogle from "@/components/buttons/LoginWithGoogle";
+import LoginProviders from "@/components/auth/all-providers";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -9,15 +10,15 @@ export default async function LoginPage() {
   if (session) redirect("/");
 
   return (
-    <div className="3xl:py-40">
-      <div className="p-4 max-w-xs mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-2">
-          Sign In
-        </h1>
-        <p className="text-center mb-6 text-gray-500">
-          Sign in to your account using one of the methods below
+    <div className="min-h-screen flex items-center justify-center bg-muted/50 px-4">
+      <div className="bg-white shadow-lg rounded-2xl w-full max-w-md p-8">
+        <h1 className="text-3xl font-bold text-center mb-2">Welcome back</h1>
+        <p className="text-center text-sm text-gray-500 mb-6">
+          Log in to your account
         </p>
-        <LoginWithGoogle />
+
+        {/* client-side auth buttons */}
+        <LoginProviders />
       </div>
     </div>
   );
