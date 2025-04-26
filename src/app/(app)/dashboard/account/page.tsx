@@ -10,14 +10,13 @@ import cloneDeep from "clone-deep";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 
 interface PageProps {
-  searchParams?: Promise<{
+  searchParams?: {
     desiredUsername?: string;
-  }>;
+  };
 }
 
 export default async function AccountPage({ searchParams }: PageProps) {
-  const resolvedSearchParams = await searchParams;
-  const desiredUsername = resolvedSearchParams?.desiredUsername;
+  const desiredUsername = searchParams?.desiredUsername;
 
   const session = await getServerSession(authOptions);
 
