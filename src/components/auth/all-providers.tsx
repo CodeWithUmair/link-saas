@@ -22,6 +22,15 @@ const providers = [
 export default function LoginProviders() {
     const [email, setEmail] = useState("");
 
+    // on /auth/login page
+
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        sessionStorage.setItem("tempEmail", email); // 💾 Save email
+        await signIn("email", { email });
+    };
+
+
     return (
         <>
             <input
@@ -33,7 +42,7 @@ export default function LoginProviders() {
             />
             <button
                 className="w-full py-3 bg-black text-white rounded-md font-semibold mb-4"
-                onClick={() => signIn("email", { email })}
+                onClick={handleLogin}
             >
                 Continue
             </button>

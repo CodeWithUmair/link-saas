@@ -33,11 +33,11 @@ export const authOptions = {
         .findOne({ email: user.email });
 
       if (!existingUser) {
-        return "/register"; // new user
+        return "/auth/register"; // new user
       }
 
       if (!existingUser.username) {
-        return "/register"; // user exists but hasn't completed setup
+        return "/auth/register"; // user exists but hasn't completed setup
       }
 
       return true; // allow sign-in, go to dashboard or default route
