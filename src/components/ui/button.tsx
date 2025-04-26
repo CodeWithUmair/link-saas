@@ -58,9 +58,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const Comp = asChild ? Slot : 'button';
-
-    // Determine if the button should be disabled
     const isDisabled = loading || disabled;
+
+    const content = (
+      <>
+        {children}
+        {loading && <LoaderCircle className="animate-spin" />}
+      </>
+    );
 
     return (
       <Comp
@@ -75,12 +80,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={isDisabled}
         {...props}
       >
-        {children}
-        {loading && <LoaderCircle className="animate-spin" />}
+        {asChild ? <span className="flex items-center gap-2">{content}</span> : content}
       </Comp>
     );
   }
 );
-Button.displayName = 'Button';
+Button.displayName = "Button"
 
 export { Button, buttonVariants };
