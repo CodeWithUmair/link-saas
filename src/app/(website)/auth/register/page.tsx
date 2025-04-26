@@ -9,19 +9,22 @@ import { Button } from "@/components/ui/button";
 export default function RegisterPage() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [submitted, setSubmitted] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Save name & email somewhere temporarily if needed
         localStorage.setItem("tempName", name);
 
-        // Trigger magic link sign-in
         await signIn("email", {
             email,
             callbackUrl: `/dashboard/account?desiredUsername=${encodeURIComponent(name)}`,
+            redirect: false, // Prevent redirect so we can show a message
         });
+
+        setSubmitted(true);
     };
+
 
     useEffect(() => {
         const savedEmail = sessionStorage.getItem("tempEmail");
@@ -50,9 +53,13 @@ export default function RegisterPage() {
                     disabled
                     className="bg-gray-200 cursor-not-allowed"
                 />
-                <Button type="submit" className="bg-black text-white py-2 px-4 rounded">
-                    Send Magic Link
-                </Button>
+                {submitted ? (
+                    <p className="text-green-600">Magic link sent! Please check your email.</p>
+                ) : (
+                    <Button type="submit" className="bg-foreground text-background py-2 px-4 rounded">
+                        Send Magic Link
+                    </Button>
+                )}
             </form>
         </div>
     );

@@ -72,6 +72,7 @@
     "react-resizable-panels": "^2.1.7",
     "react-sortablejs": "^6.1.4",
     "recharts": "^2.15.2",
+    "resend": "^4.4.1",
     "sonner": "^2.0.3",
     "sortablejs": "^1.15.0",
     "tailwind-merge": "^3.2.0",
