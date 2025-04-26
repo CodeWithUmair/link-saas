@@ -1,4 +1,3 @@
-// src/auth/register/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -14,30 +13,39 @@ export default function RegisterPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!name || !email) return;
+
         localStorage.setItem("tempName", name);
 
-        await signIn("email", {
+        const res = await signIn("email", {
             email,
-            callbackUrl: `/dashboard/account?desiredUsername=${encodeURIComponent(name)}`,
-            redirect: false, // Prevent redirect so we can show a message
+            callbackUrl: `${window.location.origin}/dashboard/account?desiredUsername=${encodeURIComponent(name)}`,
+            redirect: false,
         });
+        console.log("🚀 ~ handleSubmit ~ res:", res)
 
-        setSubmitted(true);
+        if (res?.ok) {
+            setSubmitted(true);
+        } else {
+            alert("Failed to send magic link. Please try again.");
+        }
     };
 
-
     useEffect(() => {
-        const savedEmail = sessionStorage.getItem("tempEmail");
+        const savedEmail = sessionStorage.getItem("tempEmail") || localStorage.getItem("tempEmail");
         if (savedEmail) {
             setEmail(savedEmail);
         }
     }, []);
 
-
     return (
-        <div className="flex items-center justify-center min-h-screen">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <h1 className="text-2xl font-bold">Complete your signup</h1>
+        <div className="flex items-center justify-center min-h-screen px-4">
+            <form
+                onSubmit={handleSubmit}
+                className="flex flex-col gap-4 bg-background p-6 rounded-xl shadow-lg w-full max-w-md"
+            >
+                <h1 className="text-2xl font-bold text-center">Complete your signup</h1>
+
                 <Input
                     type="text"
                     placeholder="Your name"
@@ -45,18 +53,26 @@ export default function RegisterPage() {
                     onChange={(e) => setName(e.target.value)}
                     required
                 />
+
                 <Input
                     type="email"
                     placeholder="Your email"
                     value={email}
-                    required
                     disabled
+                    required
                     className="bg-gray-200 cursor-not-allowed"
                 />
+
                 {submitted ? (
-                    <p className="text-green-600">Magic link sent! Please check your email.</p>
+                    <p className="text-green-600 text-sm text-center">
+                        ✅ Magic link sent! Check your inbox.
+                    </p>
                 ) : (
-                    <Button type="submit" className="bg-foreground text-background py-2 px-4 rounded">
+                    <Button
+                        type="submit"
+                        className="bg-foreground text-background py-2 px-4 rounded"
+                        disabled={!name || !email}
+                    >
                         Send Magic Link
                     </Button>
                 )}

@@ -4,7 +4,10 @@ import clientPromise from "@/libs/mongoClient";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
+import { Resend } from "resend";
 import NextAuth from "next-auth";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -14,15 +17,18 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     EmailProvider({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: parseInt(process.env.EMAIL_SERVER_PORT || "587"),
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
+      async sendVerificationRequest({ identifier, url }) {
+        try {
+          await resend.emails.send({
+            from: process.env.EMAIL_FROM,
+            to: identifier,
+            subject: "Your Magic Sign-in Link",
+            html: `<p>Click <a href="${url}">here</a> to sign in.</p>`,
+          });
+        } catch (error) {
+          console.error("Error sending magic link:", error);
+        }
       },
-      from: process.env.EMAIL_FROM,
     }),
   ],
   callbacks: {
@@ -40,7 +46,7 @@ export const authOptions = {
         return "/auth/register"; // user exists but hasn't completed setup
       }
 
-      return true; // allow sign-in, go to dashboard or default route
+      return true; // allow sign-in
     },
   },
 };
