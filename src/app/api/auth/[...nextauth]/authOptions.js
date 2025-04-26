@@ -10,6 +10,7 @@ import NextAuth from "next-auth";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const authOptions = {
+  debug: true,
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
@@ -33,20 +34,37 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({ user }) {
-      const db = (await clientPromise).db();
-      const existingUser = await db
-        .collection("users")
-        .findOne({ email: user.email });
+      try {
+        // 1. Explicit database connection check
+        const client = await clientPromise;
+        if (!client) throw new Error("Database connection failed");
 
-      if (!existingUser) {
-        return "/auth/register"; // new user
+        const db = client.db();
+
+        // 2. Add debug logging
+        console.log("[NextAuth] Checking user:", user.email);
+
+        // 3. Case-insensitive email search
+        const existingUser = await db.collection("users").findOne({
+          email: { $regex: new RegExp(`^${user.email}$`, "i") },
+        });
+
+        if (!existingUser) {
+          console.log("[NextAuth] New user detected, redirecting to register");
+          return "/auth/register"; // Keep relative URL - NextAuth handles base URL
+        }
+
+        if (!existingUser.username) {
+          console.log("[NextAuth] User exists but missing username");
+          return "/auth/register";
+        }
+
+        return true;
+      } catch (error) {
+        console.error("[NextAuth] signIn callback error:", error);
+        // Fail closed - don't allow sign-in if we can't verify
+        return false;
       }
-
-      if (!existingUser.username) {
-        return "/auth/register"; // user exists but hasn't completed setup
-      }
-
-      return true; // allow sign-in
     },
   },
 };

@@ -17,9 +17,15 @@ export default function RegisterPage() {
 
         localStorage.setItem("tempName", name);
 
+        const baseUrl = typeof window !== 'undefined' ? window.location.origin : process.env.NEXTAUTH_URL;
+
+        const callbackUrl = `${baseUrl}/dashboard/account?desiredUsername=${encodeURIComponent(name)}`;
+
+        console.log("Callback URL:", callbackUrl); // ADD THIS LINE
+
         const res = await signIn("email", {
             email,
-            callbackUrl: `${window.location.origin}/dashboard/account?desiredUsername=${encodeURIComponent(name)}`,
+            callbackUrl,
             redirect: false,
         });
         console.log("🚀 ~ handleSubmit ~ res:", res)
@@ -30,6 +36,7 @@ export default function RegisterPage() {
             alert("Failed to send magic link. Please try again.");
         }
     };
+
 
     useEffect(() => {
         const savedEmail = sessionStorage.getItem("tempEmail") || localStorage.getItem("tempEmail");
