@@ -3,11 +3,11 @@
 import clientPromise from "@/libs/mongoClient";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import GoogleProvider from "next-auth/providers/google";
-import EmailProvider from "next-auth/providers/email";
-import { Resend } from "resend";
+// import EmailProvider from "next-auth/providers/email";
+// import { Resend } from "resend";
 import NextAuth from "next-auth";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const authOptions = {
   debug: true,
