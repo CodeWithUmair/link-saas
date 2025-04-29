@@ -3,9 +3,8 @@
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { BsApple } from "react-icons/bs";
-import { useState } from "react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+// import { Input } from "../ui/input";
 
 const providers = [
     {
@@ -21,29 +20,29 @@ const providers = [
 ];
 
 export default function LoginProviders() {
-    const [email, setEmail] = useState("");
-    const [error, setError] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [error, setError] = useState("");
 
-    const isValidEmail = (email: string) => {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    };
+    // const isValidEmail = (email: string) => {
+    //     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    // };
 
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
+    // const handleLogin = async (e: React.FormEvent) => {
+    //     e.preventDefault();
 
-        if (!isValidEmail(email)) {
-            setError("Please enter a valid email address.");
-            return;
-        }
+    //     if (!isValidEmail(email)) {
+    //         setError("Please enter a valid email address.");
+    //         return;
+    //     }
 
-        setError("");
-        sessionStorage.setItem("tempEmail", email);
-        await signIn("email", { email });
-    };
+    //     setError("");
+    //     sessionStorage.setItem("tempEmail", email);
+    //     await signIn("email", { email });
+    // };
 
     return (
         <>
-            <Input
+            {/* <Input
                 type="email"
                 placeholder="Email address"
                 className="w-full px-4 py-3 mb-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-foreground"
@@ -57,7 +56,7 @@ export default function LoginProviders() {
                 onClick={handleLogin}
             >
                 Continue
-            </Button>
+            </Button> */}
 
             <div className="flex items-center mb-4">
                 <div className="flex-grow border-t border-gray-300"></div>
