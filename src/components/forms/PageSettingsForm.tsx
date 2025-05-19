@@ -15,6 +15,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
 
 interface PageSettingsFormProps {
   page: {
@@ -83,7 +86,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
               <div className="bg-gray-200 shadow text-gray-700 p-2 mt-2">
                 <div className="flex gap-2 justify-center">
                   <span>Background color:</span>
-                  <input
+                  <Input
                     type="color"
                     name="bgColor"
                     onChange={(ev) => setBgColor(ev.target.value)}
@@ -95,8 +98,8 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             {bgType === "image" && (
               <div className="flex justify-center">
                 <label className="bg-background shadow px-4 py-2 mt-2 flex gap-2">
-                  <input type="hidden" name="bgImage" value={bgImage} />
-                  <input
+                  <Input type="hidden" name="bgImage" value={bgImage} />
+                  <Input
                     type="file"
                     onChange={handleCoverImageChange}
                     className="hidden"
@@ -113,7 +116,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             )}
           </div>
         </div>
-        <div className="flex justify-center -mb-12">
+        <div className="flex justify-center">
           <div className="relative -top-8 w-[128px] h-[128px]">
             <div className="overflow-hidden h-full rounded-full border-4 border-background shadow shadow-foreground/50">
               <Image
@@ -130,20 +133,20 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             >
               <FontAwesomeIcon size={"xl"} icon={faCloudArrowUp} />
             </label>
-            <input
+            <Input
               onChange={handleAvatarImageChange}
               id="avatarIn"
               type="file"
               className="hidden"
             />
-            <input type="hidden" name="avatar" value={avatar} />
+            <Input type="hidden" name="avatar" value={avatar} />
           </div>
         </div>
         <div className="p-0">
-          <label className="input-label" htmlFor="nameIn">
+          <Label className="input-label" htmlFor="nameIn">
             Display name
-          </label>
-          <input
+          </Label>
+          <Input
             type="text"
             id="nameIn"
             name="displayName"
@@ -151,10 +154,10 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             onChange={(e) => setDisplayName(e.target.value)}
             placeholder="John Doe"
           />
-          <label className="input-label" htmlFor="locationIn">
+          <Label className="input-label" htmlFor="locationIn">
             Location
-          </label>
-          <input
+          </Label>
+          <Input
             type="text"
             id="locationIn"
             name="location"
@@ -162,17 +165,17 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Somewhere in the world"
           />
-          <label className="input-label" htmlFor="bioIn">
+          <Label className="input-label" htmlFor="bioIn">
             Bio
-          </label>
-          <textarea
+          </Label>
+          <Textarea
             name="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             id="bioIn"
             placeholder="Your bio goes here..."
           />
-          <div className="max-w-[200px] mx-auto">
+          <div className="max-w-[200px] mt-5 mx-auto">
             <SubmitButton>
               <FontAwesomeIcon icon={faSave} />
               <span>Save</span>

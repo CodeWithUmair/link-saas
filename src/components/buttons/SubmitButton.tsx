@@ -1,4 +1,5 @@
 import { useFormStatus } from "react-dom";
+import { Button } from "../ui/button";
 
 export default function SubmitButton({
   children,
@@ -13,7 +14,7 @@ export default function SubmitButton({
   const isDisabled = pending || disabled; // combine both states
 
   return (
-    <button
+    <Button
       type="submit"
       disabled={isDisabled}
       className={
@@ -23,6 +24,6 @@ export default function SubmitButton({
     >
       {pending && <span>Saving...</span>}
       {!pending && children}
-    </button>
+    </Button>
   );
 }
