@@ -58,22 +58,24 @@ export default function LoginProviders() {
                 Continue
             </Button> */}
 
-            <div className="flex items-center mb-4">
+            {/* <div className="flex items-center mb-4">
                 <div className="flex-grow border-t border-gray-300"></div>
                 <span className="mx-2 text-gray-500 text-sm">OR</span>
                 <div className="flex-grow border-t border-gray-300"></div>
-            </div>
+            </div> */}
+            <div className="space-y-2">
 
-            {providers.map(({ name, icon, provider }) => (
-                <Button
-                    key={provider}
-                    onClick={() => signIn(provider)}
-                    className="w-full flex items-center justify-center gap-3 border border-gray-300 py-3 rounded-md hover:bg-gray-50 transition mb-3"
-                >
-                    {icon}
-                    <span className="text-sm font-medium">Continue with {name}</span>
-                </Button>
-            ))}
+                {providers.map(({ name, icon, provider }) => (
+                    <Button
+                        key={provider}
+                        onClick={() => signIn(provider)}
+                        className="w-full"
+                    >
+                        {icon}
+                        <span className="text-sm font-medium">Continue with {name}</span>
+                    </Button>
+                ))}
+            </div>
         </>
     );
 }

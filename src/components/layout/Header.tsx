@@ -67,7 +67,7 @@ export default async function Header() {
                     ) : (
                       <Link key={item.href} href={item.href || "/"} className="hover:text-slate-900">
                         {item.prefix}
-                        {session?.user?.name} asd
+                        {session?.user?.name}
                       </Link>
                     ),
                   )}
