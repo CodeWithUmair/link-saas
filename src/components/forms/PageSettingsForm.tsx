@@ -175,12 +175,10 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             id="bioIn"
             placeholder="Your bio goes here..."
           />
-          <div className="max-w-[200px] mt-5 mx-auto">
-            <SubmitButton>
-              <FontAwesomeIcon icon={faSave} />
-              <span>Save</span>
-            </SubmitButton>
-          </div>
+          <SubmitButton>
+            <FontAwesomeIcon icon={faSave} />
+            <span>Save</span>
+          </SubmitButton>
         </div>
       </form>
     </SectionBox>

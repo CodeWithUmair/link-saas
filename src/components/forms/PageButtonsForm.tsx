@@ -15,6 +15,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { allButtons } from "@/constants/data";
 import { ButtonItem } from "@/types";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 function upperFirst(str: string): string {
   return str.slice(0, 1).toUpperCase() + str.slice(1);
@@ -82,21 +84,21 @@ export default function PageButtonsForm({ page }: { page: Page }) {
                 <FontAwesomeIcon icon={b.icon} />
                 <span>{upperFirst(b.label)}:</span>
               </div>
-              <div className="grow flex">
-                <input
+              <div className="grow flex gap-2">
+                <Input
                   placeholder={b.placeholder}
                   name={b.key}
                   defaultValue={page.buttons?.[b.key] || ""}
                   type="text"
-                  style={{ marginBottom: "0" }}
+                  className="mb-0"
                 />
-                <button
+                <Button
                   onClick={() => removeButton(b)}
                   type="button"
-                  className="py-2 px-4 bg-gray-300 cursor-pointer"
+                  variant="destructive"
                 >
                   <FontAwesomeIcon icon={faTrash} />
-                </button>
+                </Button>
               </div>
             </div>
           ))}
@@ -104,19 +106,18 @@ export default function PageButtonsForm({ page }: { page: Page }) {
         </ReactSortable>
         <div className="flex flex-wrap gap-2 mt-4 border-y py-4">
           {availableButtons.map((b) => (
-            <button
+            <Button
               key={b.key}
               type="button"
               onClick={() => addButtonToProfile(b)}
-              className="flex items-center gap-1 p-2 bg-gray-200"
             >
               <FontAwesomeIcon icon={b.icon} />
               <span>{upperFirst(b.label)}</span>
               <FontAwesomeIcon icon={faPlus} />
-            </button>
+            </Button>
           ))}
         </div>
-        <div className="max-w-xs mx-auto mt-8">
+        <div className="max-w-40 mx-auto mt-8">
           <SubmitButton>
             <FontAwesomeIcon icon={faSave} />
             <span>Save</span>

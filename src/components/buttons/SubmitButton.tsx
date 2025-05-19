@@ -1,5 +1,6 @@
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
+import { cn } from "@/libs/utils";
 
 export default function SubmitButton({
   children,
@@ -17,10 +18,7 @@ export default function SubmitButton({
     <Button
       type="submit"
       disabled={isDisabled}
-      className={
-        "bg-primary disabled:bg-primary/70 text-background disabled:text-gray-200 py-2 px-4 mx-auto w-full flex gap-2 items-center justify-center " +
-        className
-      }
+      className={cn(`mx-auto w-40`, className)}
     >
       {pending && <span>Saving...</span>}
       {!pending && children}
