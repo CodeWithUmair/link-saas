@@ -38,11 +38,28 @@ interface PageSettingsFormProps {
 }
 
 export default function PageSettingsForm({ page, user }: PageSettingsFormProps) {
-  const [bgType, setBgType] = useState(page.bgType);
+  console.log("🚀 ~ PageSettingsForm ~ page:", page)
+
+  // normalize and init bgType first
+  const initialBgType =
+    page.bgType === "color" || page.bgType === "image"
+      ? page.bgType
+      : "gradient";
+  const [bgType, setBgType] = useState<"color" | "image" | "gradient">(initialBgType);
+
+  // normalize and init gradientType next
+  const initialGradientType =
+    page.bgType === "radial"
+      ? "radial"
+      : page.gradientType ?? "linear";
+  const [gradientType, setGradientType] =
+    useState<"linear" | "radial">(initialGradientType);
+
+  // now the rest of your state hooks
   const [bgColor, setBgColor] = useState(page.bgColor);
   const [bgImage, setBgImage] = useState(page.bgImage);
-  const [gradientType, setGradientType] = useState(page.gradientType);
   const [gradientColors, setGradientColors] = useState<string[]>(page.gradientColors);
+
   const [layoutVariant, setLayoutVariant] = useState(page.layoutVariant);
   const [avatar, setAvatar] = useState(user?.image);
   const [displayName, setDisplayName] = useState(page.displayName || "");
@@ -88,7 +105,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
         >
           <div className="space-y-4">
             <RadioTogglers
-              defaultValue={bgType}
+              value={bgType}
               options={[
                 { value: "color", icon: faPalette, label: "Color" },
                 { value: "image", icon: faImage, label: "Image" },
@@ -129,32 +146,35 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             {bgType === "gradient" && (
               <div className="space-y-2">
                 <RadioTogglers
-                  defaultValue={gradientType}
+                  value={gradientType}
                   options={[
                     { value: "linear", label: "Linear", icon: faPalette },
                     { value: "radial", label: "Radial", icon: faImage },
                   ]}
-                  onChange={(val: string) => setGradientType(val as "linear" | "radial")}
+                  onChange={(val) => {
+                    setGradientType(val as "linear" | "radial");
+                    setBgType("gradient");
+                  }}
                 />
                 <div className="flex gap-2 justify-center">
                   <Input
                     type="color"
-                    name="gradientColors[0]"
-                    defaultValue={gradientColors[0]}
-                    onChange={(e) => {
+                    value={gradientColors[0]}
+                    onChange={e => {
                       const cols = [...gradientColors];
                       cols[0] = e.target.value;
                       setGradientColors(cols);
+                      setBgType("gradient");
                     }}
                   />
                   <Input
                     type="color"
-                    name="gradientColors[1]"
-                    defaultValue={gradientColors[1]}
+                    value={gradientColors[1]}
                     onChange={(e) => {
                       const cols = [...gradientColors];
                       cols[1] = e.target.value;
                       setGradientColors(cols);
+                      setBgType("gradient");
                     }}
                   />
                 </div>
@@ -248,8 +268,8 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
           <Input type="hidden" name="bgColor" value={bgColor} />
           <Input type="hidden" name="bgImage" value={bgImage} />
           <Input type="hidden" name="gradientType" value={gradientType} />
-          <Input type="hidden" name="gradientColors[0]" value={gradientColors[0]} />
-          <Input type="hidden" name="gradientColors[1]" value={gradientColors[1]} />
+          <Input type="hidden" name="gradientColors" value={gradientColors[0]} />
+          <Input type="hidden" name="gradientColors" value={gradientColors[1]} />
           <Input type="hidden" name="layoutVariant" value={layoutVariant} />
 
           <SubmitButton className="mt-4">

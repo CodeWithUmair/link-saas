@@ -17,40 +17,51 @@ type ButtonValues = {
 };
 
 export async function savePageSettings(formData: FormData) {
-  mongoose.connect(process.env.MONGO_URI!);
+  await mongoose.connect(process.env.MONGO_URI!);
   const session = await getServerSession(authOptions);
+  if (!session) return false;
 
-  if (session) {
-    const dataKeys = [
-      'displayName', 'location',
-      'bio', 'bgType', 'bgColor', 'bgImage',
-    ];
+  // which scalar fields to pull directly...
+  const dataKeys = [
+    'displayName',
+    'location',
+    'bio',
+    'bgType',
+    'bgColor',
+    'bgImage',
+    'gradientType',    // ← added
+    'layoutVariant',   // ← added
+  ];
 
-    const dataToUpdate: PageSettings = {};
-
-    for (const key of dataKeys) {
-      if (formData.has(key)) {
-        dataToUpdate[key] = formData.get(key);
-      }
+  // build the update object
+  const dataToUpdate: Record<string, any> = {};
+  for (const key of dataKeys) {
+    if (formData.has(key)) {
+      dataToUpdate[key] = formData.get(key);
     }
-
-    await Page.updateOne(
-      { owner: session?.user?.email },
-      dataToUpdate,
-    );
-
-    if (formData.has('avatar')) {
-      const avatarLink = formData.get('avatar');
-      await User.updateOne(
-        { email: session.user?.email },
-        { image: avatarLink },
-      );
-    }
-
-    return true;
   }
 
-  return false;
+  // pick up BOTH gradientColors entries into an array
+  const stops = formData.getAll('gradientColors') as string[];
+  if (stops.length > 0) {
+    dataToUpdate.gradientColors = stops;
+  }
+
+  // perform the Page update
+  await Page.updateOne(
+    { owner: session.user!.email },
+    { $set: dataToUpdate }
+  );
+
+  // avatar handling stays the same
+  if (formData.has('avatar')) {
+    await User.updateOne(
+      { email: session.user!.email },
+      { $set: { image: formData.get('avatar') } }
+    );
+  }
+
+  return true;
 }
 
 export async function savePageButtons(formData: FormData) {
