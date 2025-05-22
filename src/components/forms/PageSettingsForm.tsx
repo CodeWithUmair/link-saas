@@ -175,7 +175,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             id="bioIn"
             placeholder="Your bio goes here..."
           />
-          <SubmitButton>
+          <SubmitButton className="mt-4">
             <span>Save</span>
             <Save strokeWidth={2.5} size={28} />
           </SubmitButton>

@@ -4,6 +4,7 @@ import { Session } from "next-auth";
 import { signIn } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Button } from "../ui/button";
 interface HeroFormProps {
   user: Session | null;
 }
@@ -51,12 +52,11 @@ const HeroForm: React.FC<HeroFormProps> = ({ user }) => {
         style={{ backgroundColor: "white", marginBottom: 0, paddingLeft: 0 }}
         placeholder="username"
       />
-      <button
+      <Button
         type="submit"
-        className="bg-primary text-background py-4 px-6 whitespace-nowrap"
       >
         Join for Free
-      </button>
+      </Button>
     </form>
   );
 }
