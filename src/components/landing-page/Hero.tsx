@@ -1,4 +1,4 @@
-import HeroForm from "@/components/forms/HeroForm";
+import HeroForm from "@/components/forms/hero-form";
 import { getServerSession, Session } from "next-auth";
 
 import Image from 'next/image';

@@ -7,7 +7,6 @@ import { ReactSortable } from "react-sortablejs";
 import {
   faGripLines,
   faPlus,
-  faSave,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

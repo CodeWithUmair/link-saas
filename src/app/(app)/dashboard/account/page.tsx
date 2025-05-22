@@ -1,14 +1,14 @@
 // src/app/%28app%29/dashboard/account/page.tsx
-import PageButtonsForm from "@/components/forms/PageButtonsForm";
-import PageLinksForm from "@/components/forms/PageLinksForm";
-import PageSettingsForm from "@/components/forms/PageSettingsForm";
-import UsernameForm from "@/components/forms/UsernameForm";
+import PageButtonsForm from "@/components/forms/page-buttons.form";
+import PageLinksForm from "@/components/forms/page-links.form";
+import PageSettingsForm from "@/components/forms/page-settings.form";
 import { Page } from "@/models/Page";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import cloneDeep from "clone-deep";
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import UsernameForm from "@/components/forms/username.form";
 
 interface PageProps {
   searchParams?: {
