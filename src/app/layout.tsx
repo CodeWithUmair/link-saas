@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Header from "@/components/layout/Header";
 import NextTopLoader from 'nextjs-toploader';
 import "./globals.css";
-import Footer from "@/components/layout/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,9 +32,7 @@ export default function RootLayout({
           height={5}
           color="#B4F302"
           showSpinner={false} />
-        <Header />
         {children}
-        <Footer />
       </body>
     </html>
   );

@@ -13,43 +13,89 @@ import { PageLink } from "@/types";
 import TrackedLink from "@/components/TrackLink";
 import { buttonsIcons } from "@/libs/button-icons";
 
-interface ButtonLinkParams {
-  key: string;
-  value: string;
+interface PageParams {
+  uri: string;
 }
 
-function buttonLink({ key, value }: ButtonLinkParams): string {
-  if (key === "mobile") return "tel:" + value;
-  if (key === "email") return "mailto:" + value;
-  return value;
+type BackgroundStyle = React.CSSProperties;
+
+function getBackgroundStyle(page: Page): BackgroundStyle {
+  switch (page.bgType) {
+    case "color":
+      return { backgroundColor: page.bgColor };
+    case "gradient": {
+      const [c1, c2] = page.gradientColors || [];
+      const grad =
+        page.gradientType === "radial"
+          ? `radial-gradient(circle, ${c1}, ${c2})`
+          : `linear-gradient(to right, ${c1}, ${c2})`;
+      return { backgroundImage: grad };
+    }
+    case "image":
+    default:
+      return {
+        backgroundImage: `url(${page.bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      };
+  }
 }
 
-type PageParams = { uri: string };
-
-export default async function UserPage({ params }: { params: Promise<PageParams> }) {
-  const { uri } = await params;
+export default async function UserPage({ params }: { params: PageParams }) {
+  const { uri } = params;
 
   await mongoose.connect(process.env.MONGO_URI!);
 
   const page = await Page.findOne({ uri });
   if (!page) {
-    // Optional: return a 404 page if page not found
     return <div className="text-center text-background">Page not found</div>;
   }
 
   const user = await User.findOne({ email: page.owner });
-  await Event.create({ uri: uri, page: uri, type: "view" });
+  await Event.create({ uri, page: uri, type: "view" });
+
+  // choose layout container based on variant
+  function renderLinks() {
+    const commonProps = {
+      pageUri: page.uri,
+    };
+
+    const items = page.links?.map((link: PageLink, index: number) => {
+      if (!link.url) return null;
+      return (
+        <TrackedLink key={`${link.url}-${index}`} link={link} index={index} {...commonProps} />
+      );
+    });
+
+    switch (page.layoutVariant) {
+      case "compact":
+        return <div className="max-w-md mx-auto space-y-2 p-4">{items}</div>;
+      case "cards":
+        return <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">{items}</div>;
+      case "fullImage":
+        return (
+          <div
+            className="p-6"
+            style={{
+              backgroundImage: `url(${page.bgImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            {items}
+          </div>
+        );
+      default:
+        return <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-6 p-4 px-8">{items}</div>;
+    }
+  }
 
   return (
     <div className="bg-blue-950 text-background min-h-screen">
-      <div
-        className="h-40 2xl:h-60 bg-gray-400 bg-cover bg-center"
-        style={
-          page.bgType === "color"
-            ? { backgroundColor: page.bgColor }
-            : { backgroundImage: `url(${page.bgImage})` }
-        }
-      ></div>
+      {/* header bg */}
+      <div className="h-40 2xl:h-60 bg-cover bg-center" style={getBackgroundStyle(page)} />
+
+      {/* avatar */}
       <div className="aspect-square w-36 h-36 mx-auto relative -top-16 -mb-12">
         <Image
           className="rounded-full w-full h-full object-cover"
@@ -59,54 +105,39 @@ export default async function UserPage({ params }: { params: Promise<PageParams>
           height={256}
         />
       </div>
+
+      {/* name and location */}
       <h2 className="text-2xl text-center mb-1">{page.displayName}</h2>
       <h3 className="text-md flex gap-2 justify-center items-center text-background/70">
         <FontAwesomeIcon className="h-4" icon={faLocationDot} />
         <span>{page.location}</span>
       </h3>
+
+      {/* bio */}
       <div className="max-w-xs mx-auto text-center my-2">
         <p>{page.bio}</p>
       </div>
 
+      {/* buttons */}
       {page.buttons && (
         <div className="flex gap-2 justify-center mt-4 pb-4">
-          {Object.keys(page?.buttons ?? {}).map((buttonKey) => {
-            const value = page.buttons[buttonKey];
-            const href = buttonLink({ key: buttonKey, value });
-
-            if (!href) return null; // 🔥 avoid rendering if href is invalid
-
+          {Object.entries(page.buttons).map(([key, value]) => {
+            const href = key === "mobile" ? `tel:${value}` : key === "email" ? `mailto:${value}` : value;
             return (
               <Link
-                key={buttonKey}
+                key={key}
                 href={href}
                 className="rounded-full bg-background text-blue-950 p-2 flex items-center justify-center"
               >
-                <FontAwesomeIcon
-                  className="w-5 h-5"
-                  icon={buttonsIcons[buttonKey as keyof typeof buttonsIcons] || faLink}
-                />
+                <FontAwesomeIcon className="w-5 h-5" icon={buttonsIcons[key as keyof typeof buttonsIcons] || faLink} />
               </Link>
             );
           })}
         </div>
       )}
 
-      <div className="max-w-3xl mx-auto grid md:grid-cols-2 gap-6 p-4 px-8">
-        {page.links?.map((link: PageLink, index: number) => {
-          if (!link.url) return null; // 🔥 skip invalid entries
-
-          return (
-            <TrackedLink
-              key={`${link.url}-${index}`}
-              link={link}
-              pageUri={page.uri}
-              index={index}
-            />
-          );
-        })}
-
-      </div>
+      {/* links layout */}
+      {renderLinks()}
     </div>
   );
 }
