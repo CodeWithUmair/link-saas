@@ -7,57 +7,59 @@ import { FormLink } from "@/types";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 
-// Utility types
-type PageSettings = {
-  [key: string]: FormDataEntryValue | null;
-};
-
 type ButtonValues = {
   [key: string]: FormDataEntryValue;
 };
 
+/**
+ * Save page base settings (displayName, bio, bg, gradient, layout).
+ */
 export async function savePageSettings(formData: FormData) {
   await mongoose.connect(process.env.MONGO_URI!);
+
   const session = await getServerSession(authOptions);
   if (!session) return false;
 
-  // which scalar fields to pull directly...
+  // list of single‐value fields we expect
   const dataKeys = [
-    'displayName',
-    'location',
-    'bio',
-    'bgType',
-    'bgColor',
-    'bgImage',
-    'gradientType',    // ← added
-    'layoutVariant',   // ← added
-  ];
+    "displayName",
+    "location",
+    "bio",
+    "bgType",
+    "bgColor",
+    "bgImage",
+    "gradientType",
+    "layoutVariant",
+  ] as const;
 
-  // build the update object
-  const dataToUpdate: Record<string, any> = {};
+  // build an update object with only the keys we pulled
+  const dataToUpdate: Record<string, string | string[]> = {};
+
   for (const key of dataKeys) {
-    if (formData.has(key)) {
-      dataToUpdate[key] = formData.get(key);
+    const v = formData.get(key);
+    if (typeof v === "string") {
+      dataToUpdate[key] = v;
     }
   }
 
-  // pick up BOTH gradientColors entries into an array
-  const stops = formData.getAll('gradientColors') as string[];
-  if (stops.length > 0) {
+  // pick up BOTH gradientColors entries as an array of strings
+  const stops = formData.getAll("gradientColors").filter((v): v is string => typeof v === "string");
+  if (stops.length) {
     dataToUpdate.gradientColors = stops;
   }
 
-  // perform the Page update
+  // persist to Mongo
   await Page.updateOne(
     { owner: session.user!.email },
     { $set: dataToUpdate }
   );
 
-  // avatar handling stays the same
-  if (formData.has('avatar')) {
+  // avatar stays the same
+  const avatar = formData.get("avatar");
+  if (typeof avatar === "string") {
     await User.updateOne(
       { email: session.user!.email },
-      { $set: { image: formData.get('avatar') } }
+      { $set: { image: avatar } }
     );
   }
 
