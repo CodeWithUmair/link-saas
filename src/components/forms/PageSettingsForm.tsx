@@ -1,3 +1,4 @@
+// src/components/forms/PageSettingsForm.tsx
 "use client";
 
 import { savePageSettings } from "@/actions/pageActions";
