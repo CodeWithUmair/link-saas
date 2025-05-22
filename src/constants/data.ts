@@ -1,42 +1,30 @@
-import {
-    faDiscord,
-    faFacebook,
-    faGithub,
-    faInstagram,
-    faTelegram,
-    faTiktok,
-    faWhatsapp,
-    faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
-import {
-    faEnvelope,
-    faMobile,
-} from "@fortawesome/free-solid-svg-icons";
+import { Facebook, Github, Instagram, Mail, Phone, Youtube } from "lucide-react";
+import { BsDiscord, BsTelegram, BsTiktok, BsWhatsapp } from "react-icons/bs";
 
 export const allButtons = [
     {
         key: "email",
         label: "e-mail",
-        icon: faEnvelope,
+        icon: Mail,
         placeholder: "test@example.com",
     },
     {
         key: "mobile",
         label: "mobile",
-        icon: faMobile,
+        icon: Phone,
         placeholder: "+46 123 123 123",
     },
     {
         key: "instagram",
         label: "instagram",
-        icon: faInstagram,
+        icon: Instagram,
         placeholder: "https://facebook.com/profile/...",
     },
-    { key: "facebook", label: "facebook", icon: faFacebook },
-    { key: "discord", label: "discord", icon: faDiscord },
-    { key: "tiktok", label: "tiktok", icon: faTiktok },
-    { key: "youtube", label: "youtube", icon: faYoutube },
-    { key: "whatsapp", label: "whatsapp", icon: faWhatsapp },
-    { key: "github", label: "github", icon: faGithub },
-    { key: "telegram", label: "telegram", icon: faTelegram },
+    { key: "facebook", label: "facebook", icon: Facebook },
+    { key: "discord", label: "discord", icon: BsDiscord },
+    { key: "tiktok", label: "tiktok", icon: BsTiktok },
+    { key: "youtube", label: "youtube", icon: Youtube },
+    { key: "whatsapp", label: "whatsapp", icon: BsWhatsapp },
+    { key: "github", label: "github", icon: Github },
+    { key: "telegram", label: "telegram", icon: BsTelegram },
 ];
