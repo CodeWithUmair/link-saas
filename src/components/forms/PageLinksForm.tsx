@@ -5,8 +5,9 @@ import SubmitButton from "@/components/buttons/SubmitButton";
 import SectionBox from "@/components/layout/SectionBox";
 import { upload } from "@/libs/upload";
 import { FormLink } from "@/types";
-import { faCloudArrowUp, faGripLines, faLink, faPlus, faSave, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCloudArrowUp, faGripLines, faLink, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Save } from "lucide-react";
 import Image from "next/image";
 import { FC, useState } from "react";
 import toast from "react-hot-toast";
@@ -188,8 +189,8 @@ const PageLinksForm: FC<{ page: Page }> = ({ page }) => {
             className="max-w-xs mx-auto"
             disabled={hasErrors}
           >
-            <FontAwesomeIcon icon={faSave} />
             <span>Save</span>
+            <Save strokeWidth={2.5} size={28} />
           </SubmitButton>
 
         </div>

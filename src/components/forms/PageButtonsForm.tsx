@@ -17,6 +17,7 @@ import { allButtons } from "@/constants/data";
 import { ButtonItem } from "@/types";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { Save } from "lucide-react";
 
 function upperFirst(str: string): string {
   return str.slice(0, 1).toUpperCase() + str.slice(1);
@@ -111,7 +112,6 @@ export default function PageButtonsForm({ page }: { page: Page }) {
               type="button"
               onClick={() => addButtonToProfile(b)}
             >
-              <FontAwesomeIcon icon={b.icon} />
               <span>{upperFirst(b.label)}</span>
               <FontAwesomeIcon icon={faPlus} />
             </Button>
@@ -119,8 +119,8 @@ export default function PageButtonsForm({ page }: { page: Page }) {
         </div>
         <div className="max-w-40 mx-auto mt-8">
           <SubmitButton>
-            <FontAwesomeIcon icon={faSave} />
             <span>Save</span>
+            <Save strokeWidth={2.5} size={28} />
           </SubmitButton>
         </div>
       </form>

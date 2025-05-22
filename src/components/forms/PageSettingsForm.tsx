@@ -9,7 +9,6 @@ import {
   faCloudArrowUp,
   faImage,
   faPalette,
-  faSave,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -18,6 +17,7 @@ import toast from "react-hot-toast";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
+import { Save } from "lucide-react";
 
 interface PageSettingsFormProps {
   page: {
@@ -176,8 +176,8 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             placeholder="Your bio goes here..."
           />
           <SubmitButton>
-            <FontAwesomeIcon icon={faSave} />
             <span>Save</span>
+            <Save strokeWidth={2.5} size={28} />
           </SubmitButton>
         </div>
       </form>
