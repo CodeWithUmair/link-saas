@@ -31,7 +31,6 @@ interface SortableButtonItem extends ButtonItem {
 }
 
 export default function PageButtonsForm({ page }: { page: Page }) {
-console.log("🚀 ~ PageButtonsForm ~ page:", page)
 
   const pageSavedButtonsKeys = Object.keys(page.buttons || {});
 
