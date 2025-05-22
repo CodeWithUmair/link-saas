@@ -20,8 +20,7 @@ export default function SubmitButton({
       disabled={isDisabled}
       className={cn(`mx-auto w-40`, className)}
     >
-      {pending && <span>Saving...</span>}
-      {!pending && children}
+      {pending ? <span>Saving...</span> : children}
     </Button>
   );
 }

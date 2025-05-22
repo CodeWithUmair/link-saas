@@ -4,7 +4,8 @@ import Header from "@/components/layout/Header"
 
 const NotFound = () => {
     return (
-        <main className="min-h-screen">  <Header />
+        <main className="min-h-screen">
+            <Header />
             <div>Not Found</div>
             <Footer />
         </main>
