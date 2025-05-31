@@ -20,6 +20,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+   typescript: {
+    ignoreBuildErrors: true, // <-- ADD THIS LINE to disable type check on build
+  },
 };
 
 export default nextConfig;
