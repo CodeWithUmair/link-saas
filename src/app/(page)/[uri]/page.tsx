@@ -20,16 +20,24 @@ interface PageParams {
 type BackgroundStyle = React.CSSProperties;
 
 function getBackgroundStyle(page: PageType): BackgroundStyle {
+  console.log("🚀 ~ getBackgroundStyle ~ page:", page)
+
   switch (page.bgType) {
     case "color":
-      return { backgroundColor: page.bgColor };
+      return {
+        backgroundColor: page.bgColor,
+        backgroundAttachment: "fixed"
+      };
     case "gradient": {
       const [c1, c2] = page.gradientColors || [];
       const grad =
         page.gradientType === "radial"
           ? `radial-gradient(circle, ${c1}, ${c2})`
           : `linear-gradient(to right, ${c1}, ${c2})`;
-      return { backgroundImage: grad };
+      return {
+        backgroundImage: grad,
+        backgroundAttachment: "fixed"
+      };
     }
     case "image":
     default:
@@ -37,9 +45,11 @@ function getBackgroundStyle(page: PageType): BackgroundStyle {
         backgroundImage: `url(${page.bgImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundAttachment: "fixed"
       };
   }
 }
+
 
 export default async function UserPage({ params }: { params: PageParams }) {
   const { uri } = params;
@@ -93,51 +103,54 @@ export default async function UserPage({ params }: { params: PageParams }) {
   return (
     <div className="bg-blue-950 text-background min-h-screen">
       {/* header bg */}
-      <div className="h-40 2xl:h-60 bg-cover bg-center" style={getBackgroundStyle(page)} />
+      <div className="text-background min-h-screen" style={getBackgroundStyle(page)}>
 
-      {/* avatar */}
-      <div className="aspect-square w-36 h-36 mx-auto relative -top-16 -mb-12">
-        <Image
-          className="rounded-full w-full h-full object-cover"
-          src={user?.image || "/default.png"}
-          alt="avatar"
-          width={256}
-          height={256}
-        />
-      </div>
 
-      {/* name and location */}
-      <h2 className="text-2xl text-center mb-1">{page.displayName}</h2>
-      <h3 className="text-md flex gap-2 justify-center items-center text-background/70">
-        <FontAwesomeIcon className="h-4" icon={faLocationDot} />
-        <span>{page.location}</span>
-      </h3>
-
-      {/* bio */}
-      <div className="max-w-xs mx-auto text-center my-2">
-        <p>{page.bio}</p>
-      </div>
-
-      {/* buttons */}
-      {page.buttons && (
-        <div className="flex gap-2 justify-center mt-4 pb-4">
-          {Object.entries(page.buttons).map(([key, value]) => {
-            const href: string = key === "mobile" ? `tel:${value}` : key === "email" ? `mailto:${value}` : String(value);
-            return (
-              <Link
-                key={key}
-                href={href}
-                className="rounded-full bg-background text-blue-950 p-2 flex items-center justify-center"
-              >
-                <FontAwesomeIcon className="w-5 h-5" icon={buttonsIcons[key as keyof typeof buttonsIcons] || faLink} />
-              </Link>
-            );
-          })}
+        {/* avatar */}
+        <div className="aspect-square w-36 h-36 mx-auto relative top-16 mb-12">
+          <Image
+            className="rounded-full w-full h-full object-cover"
+            src={user?.image || "/default.png"}
+            alt="avatar"
+            width={256}
+            height={256}
+          />
         </div>
-      )}
 
-      {/* links layout */}
-      {renderLinks()}
+        {/* name and location */}
+        <h2 className="text-2xl text-center mb-1">{page.displayName}</h2>
+        <h3 className="text-md flex gap-2 justify-center items-center text-background/70">
+          <FontAwesomeIcon className="h-4" icon={faLocationDot} />
+          <span>{page.location}</span>
+        </h3>
+
+        {/* bio */}
+        <div className="max-w-xs mx-auto text-center my-2">
+          <p>{page.bio}</p>
+        </div>
+
+        {/* buttons */}
+        {page.buttons && (
+          <div className="flex gap-2 justify-center mt-4 pb-4">
+            {Object.entries(page.buttons).map(([key, value]) => {
+              const href: string = key === "mobile" ? `tel:${value}` : key === "email" ? `mailto:${value}` : String(value);
+              return (
+                <Link
+                  key={key}
+                  href={href}
+                  className="rounded-full bg-background text-blue-950 p-2 flex items-center justify-center"
+                >
+                  <FontAwesomeIcon className="w-5 h-5" icon={buttonsIcons[key as keyof typeof buttonsIcons] || faLink} />
+                </Link>
+              );
+            })}
+          </div>
+        )}
+
+        {/* links layout */}
+        {renderLinks()}
+
+      </div>
     </div>
   );
 }
