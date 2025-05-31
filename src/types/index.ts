@@ -26,7 +26,7 @@ export type FormLink = {
 
 // ———————————————————————————————————————————————————————————————
 // The full Page model (matches your Mongoose schema)
-export interface Page {
+export interface PageType {
     uri: string;
     owner: string;
 

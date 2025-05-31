@@ -1,4 +1,3 @@
-import { Page } from "@/models/Page";
 import { User } from "@/models/User";
 import { Event } from "@/models/Event";
 import {
@@ -9,9 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import mongoose from "mongoose";
 import Image from "next/image";
 import Link from "next/link";
-import { PageLink } from "@/types";
+import { PageLink, PageType } from "@/types";
 import TrackedLink from "@/components/TrackLink";
 import { buttonsIcons } from "@/libs/button-icons";
+import { Page } from "@/models/Page";
 
 interface PageParams {
   uri: string;
@@ -19,7 +19,7 @@ interface PageParams {
 
 type BackgroundStyle = React.CSSProperties;
 
-function getBackgroundStyle(page: Page): BackgroundStyle {
+function getBackgroundStyle(page: PageType): BackgroundStyle {
   switch (page.bgType) {
     case "color":
       return { backgroundColor: page.bgColor };
@@ -122,7 +122,7 @@ export default async function UserPage({ params }: { params: PageParams }) {
       {page.buttons && (
         <div className="flex gap-2 justify-center mt-4 pb-4">
           {Object.entries(page.buttons).map(([key, value]) => {
-            const href = key === "mobile" ? `tel:${value}` : key === "email" ? `mailto:${value}` : value;
+            const href: string = key === "mobile" ? `tel:${value}` : key === "email" ? `mailto:${value}` : String(value);
             return (
               <Link
                 key={key}
