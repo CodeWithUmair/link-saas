@@ -50,7 +50,6 @@ function getBackgroundStyle(page: PageType): BackgroundStyle {
   }
 }
 
-
 export default async function UserPage({ params }: { params: PageParams }) {
   const { uri } = params;
 

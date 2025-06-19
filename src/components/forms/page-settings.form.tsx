@@ -38,7 +38,6 @@ interface PageSettingsFormProps {
 }
 
 export default function PageSettingsForm({ page, user }: PageSettingsFormProps) {
-  console.log("🚀 ~ PageSettingsForm ~ page:", page)
 
   // normalize and init bgType first
   const initialBgType =
@@ -103,7 +102,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
                 : { backgroundImage: `url(${bgImage})` }
           }
         >
-          <div className="space-y-4">
+          <div className="space-y-2">
             <RadioTogglers
               value={bgType}
               options={[
@@ -213,7 +212,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
 
         {/* Text fields */}
         <div className="p-4 space-y-4">
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="nameIn">Display name</Label>
             <Input
               type="text"
@@ -224,7 +223,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
               placeholder="John Doe"
             />
           </div>
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="locationIn">Location</Label>
             <Input
               type="text"
@@ -235,7 +234,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
               placeholder="Somewhere in the world"
             />
           </div>
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="bioIn">Bio</Label>
             <Textarea
               id="bioIn"
@@ -247,7 +246,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
           </div>
 
           {/* Layout variant selector */}
-          <div>
+          <div className="space-y-2">
             <Label htmlFor="layoutVariant">Page Layout</Label>
             <select
               id="layoutVariant"
