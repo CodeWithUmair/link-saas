@@ -17,26 +17,35 @@ export default function RegisterPage() {
 
         localStorage.setItem("tempName", name);
 
-        const baseUrl = typeof window !== 'undefined' ? window.location.origin : process.env.NEXTAUTH_URL;
+        const baseUrl =
+            typeof window !== "undefined"
+                ? window.location.origin
+                : process.env.NEXTAUTH_URL;
 
         const callbackUrl = `${baseUrl}/dashboard/account?desiredUsername=${encodeURIComponent(name)}`;
 
-        console.log("Callback URL:", callbackUrl); // ADD THIS LINE
+        console.log("🚀 ~ handleSubmit ~ baseUrl:", baseUrl);
+        console.log("Callback URL:", callbackUrl);
 
-        const res = await signIn("email", {
+        const providers = await fetch("/api/auth/providers").then((res) =>
+            res.json()
+        );
+        console.log("✅ Available providers:", providers);
+
+        await signIn("email", {
             email,
             callbackUrl,
-            redirect: false,
+            redirect: true,
         });
-        console.log("🚀 ~ handleSubmit ~ res:", res)
 
-        if (res?.ok) {
-            setSubmitted(true);
-        } else {
-            alert("Failed to send magic link. Please try again.");
-        }
+        setSubmitted(true)
+
+        // if (res?.ok) {
+        //     setSubmitted(true);
+        // } else {
+        //     alert("Failed to send magic link. Please try again.");
+        // }
     };
-
 
     useEffect(() => {
         const savedEmail = sessionStorage.getItem("tempEmail") || localStorage.getItem("tempEmail");
