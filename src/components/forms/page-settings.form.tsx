@@ -19,11 +19,11 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { Save } from "lucide-react";
-import { Page } from "@/types";
+import { PageType } from "@/types";
 
 interface PageSettingsFormProps {
   page: Pick<
-    Page,
+    PageType,
     | "bgType"
     | "bgColor"
     | "bgImage"
@@ -188,7 +188,7 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
             <div className="overflow-hidden h-full rounded-full border-4 border-background shadow">
               <Image
                 className="w-full h-full object-cover"
-                src={avatar || "/default-avatar.png"}
+                src={avatar || "/images/user.png"}
                 alt="avatar"
                 width={128}
                 height={128}

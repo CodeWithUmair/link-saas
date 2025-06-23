@@ -109,7 +109,7 @@ export default async function UserPage({ params }: { params: PageParams }) {
         <div className="aspect-square w-36 h-36 mx-auto relative top-16 mb-20">
           <Image
             className="rounded-full w-full h-full object-cover"
-            src={user?.image || "/default.png"}
+            src={user?.image || "/images/user.png"}
             alt="avatar"
             width={256}
             height={256}
