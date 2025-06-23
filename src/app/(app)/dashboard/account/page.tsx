@@ -34,10 +34,11 @@ export default async function AccountPage({ searchParams }: PageProps) {
   }
 
   if (!page) {
-    page = await Page.create({
-      uri: desiredUsername,
-      owner: session?.user?.email,
-    });
+    page = await Page.findOneAndUpdate(
+      { owner: session?.user?.email },
+      { $setOnInsert: { uri: desiredUsername, owner: session?.user?.email } },
+      { upsert: true, new: true }
+    );
   }
 
   const leanPage = cloneDeep(page.toJSON());

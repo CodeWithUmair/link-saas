@@ -3,7 +3,7 @@ import { model, models, Schema } from "mongoose";
 const PageSchema = new Schema(
   {
     uri: { type: String, required: true, min: 1, unique: true },
-    owner: { type: String, required: true },
+    owner: { type: String, required: true, unique: true },
 
     // Basic info
     displayName: { type: String, default: "" },
@@ -41,5 +41,8 @@ const PageSchema = new Schema(
   },
   { timestamps: true }
 );
+
+PageSchema.index({ owner: 1 }, { unique: true });
+PageSchema.index({ uri: 1 }, { unique: true });
 
 export const Page = models.Page || model("Page", PageSchema);

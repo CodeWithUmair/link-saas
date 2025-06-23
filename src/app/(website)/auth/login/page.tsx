@@ -1,6 +1,6 @@
 // app/login/page.tsx
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
-import LoginProviders from "@/components/auth/all-providers";
+import LoginComponent from "@/components/auth/login";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
@@ -18,7 +18,7 @@ export default async function LoginPage() {
         </p>
 
         {/* client-side auth buttons */}
-        <LoginProviders />
+        <LoginComponent />
       </div>
     </div>
   );
