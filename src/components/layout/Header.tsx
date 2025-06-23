@@ -11,12 +11,10 @@ import mongoose from "mongoose";
 
 export default async function Header() {
   const session = await getServerSession(authOptions)
-  console.log("🚀 ~ Header ~ session:", session)
 
   mongoose.connect(process.env.MONGO_URI!);
 
   const page = await Page.findOne({ owner: session?.user?.email });
-  console.log("🚀 ~ Header ~ page:", page)
 
   return (
     <header className="bg-background border-b py-4">

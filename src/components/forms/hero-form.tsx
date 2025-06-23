@@ -5,6 +5,7 @@ import { signIn } from "next-auth/react";
 import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 interface HeroFormProps {
   user: Session | null;
 }
@@ -43,17 +44,17 @@ const HeroForm: React.FC<HeroFormProps> = ({ user }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="inline-flex items-center shadow-lg bg-background shadow-gray-500/20"
+      className="inline-flex items-center border rounded-xl px-3 bg-background shadow shadow-gray-500/20 py-2"
     >
-      <span className="bg-background py-4 pl-4 whitespace-nowrap">um-saas.to/</span>
-      <input
+      <span className="bg-background whitespace-nowrap">um-saas.to/</span>
+      <Input
         type="text"
-        className="focus-visible:border-0 focus:border-0"
         style={{ backgroundColor: "white", marginBottom: 0, paddingLeft: 0 }}
         placeholder="username"
       />
       <Button
         type="submit"
+        className="ml-2"
       >
         Join for Free
       </Button>
