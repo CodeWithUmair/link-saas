@@ -6,9 +6,17 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import LogoutButton from "@/components/buttons/LogoutButton"
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"
 import { NAVIGATION } from "@/constants/nav"
+import { Page } from "@/models/Page"
+import mongoose from "mongoose";
 
 export default async function Header() {
   const session = await getServerSession(authOptions)
+  console.log("🚀 ~ Header ~ session:", session)
+
+  mongoose.connect(process.env.MONGO_URI!);
+
+  const page = await Page.findOne({ owner: session?.user?.email });
+  console.log("🚀 ~ Header ~ page:", page)
 
   return (
     <header className="bg-background border-b py-4">
@@ -64,7 +72,7 @@ export default async function Header() {
                   {NAVIGATION.authNav.authenticated.map((item, index) =>
                     item.component === "LogoutButton" ? (
                       <LogoutButton key={index} />
-                    ) : (
+                    ) : page && (
                       <Link key={item.href} href={item.href || "/"} className="hover:text-slate-900">
                         {item.prefix}
                         {session?.user?.name}

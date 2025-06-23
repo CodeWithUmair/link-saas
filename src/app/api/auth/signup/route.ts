@@ -1,3 +1,5 @@
+// api/auth/signup/route.ts
+
 import { NextResponse } from "next/server";
 import clientPromise from "@/libs/mongoClient";
 import { hash } from "bcryptjs";
@@ -13,7 +15,12 @@ export async function POST(req: Request) {
     }
 
     const hashed = await hash(password, 10);
-    await users.insertOne({ name, email, password: hashed });
+    await users.insertOne({
+        name,
+        email,
+        password: hashed,
+        provider: "credentials",
+    });
     console.log("🚀 ~ POST ~ users:", users)
     return NextResponse.json({ ok: true });
 }

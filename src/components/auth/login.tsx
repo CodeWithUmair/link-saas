@@ -2,20 +2,22 @@
 
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
-import { BsApple } from "react-icons/bs";
+// import { BsApple } from "react-icons/bs";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 const providers = [
   { name: "Google", icon: <FcGoogle size={20} />, provider: "google" },
-  { name: "Apple", icon: <BsApple size={20} />, provider: "apple" },
+  // { name: "Apple", icon: <BsApple size={20} />, provider: "apple" },
 ];
 
 export default function LoginComponent() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const searchParams = useSearchParams();
 
   // const isValidEmail = (e: string) =>
   //   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
@@ -30,12 +32,23 @@ export default function LoginComponent() {
     console.log("🚀 ~ handleLogin ~ res:", res)
     if (res?.error === "EMAIL_NOT_FOUND") {
       window.location.href = `/auth/register?email=${encodeURIComponent(email)}`;
+    } else if (res?.error === "PROVIDER_MISMATCH") {
+      setError("This email is registered with a different login method. Please use Google Sign-In.");
     } else if (res?.error) {
       setError("Invalid credentials");
     } else {
       window.location.href = "/";
     }
   };
+
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+    if (errorParam === "OAuthAccountNotLinked") {
+      setError(
+        "This email is already registered using a different sign-in method. Please use Email & Password to log in."
+      );
+    }
+  }, [searchParams]);
 
   return (
     <>

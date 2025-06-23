@@ -25,15 +25,19 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         const client = await clientPromise;
-        const user = await client
-          .db()
-          .collection("users")
-          .findOne({ email: credentials!.email });
+        const user = await client.db().collection("users").findOne({ email: credentials!.email });
+
         if (!user) throw new Error("EMAIL_NOT_FOUND");
+
+        if (!user.password || user.provider !== "credentials") {
+          throw new Error("PROVIDER_MISMATCH");
+        }
+
         const pwMatch = await compare(credentials!.password, user.password);
         if (!pwMatch) throw new Error("INVALID_PASSWORD");
+
         return { id: user._id.toString(), email: user.email, name: user.name };
-      },
+      }
     }),
   ],
   pages: { signIn: "/auth/login", error: "/auth/login" },
