@@ -47,10 +47,8 @@ export default function PageSettingsForm({ page, user }: PageSettingsFormProps) 
   const [bgType, setBgType] = useState<"color" | "image" | "gradient">(initialBgType);
 
   // normalize and init gradientType next
-  const initialGradientType =
-    page.bgType === "radial"
-      ? "radial"
-      : page.gradientType ?? "linear";
+  const initialGradientType = page.gradientType ?? "linear";
+
   const [gradientType, setGradientType] =
     useState<"linear" | "radial">(initialGradientType);
 

@@ -8,11 +8,11 @@ interface RadioOption {
 
 interface RadioTogglersProps {
   options: RadioOption[];
-  defaultValue: string;
+  value: string;
   onChange: (value: string) => void;
 }
 
-export default function RadioTogglers({ options, defaultValue, onChange }: RadioTogglersProps) {
+export default function RadioTogglers({ options, value, onChange }: RadioTogglersProps) {
   return (
     <div className="radio-togglers shadow">
       {options.map(option => (
@@ -21,7 +21,7 @@ export default function RadioTogglers({ options, defaultValue, onChange }: Radio
             type="radio"
             name="bgType"
             onClick={ev => onChange((ev.target as HTMLInputElement).value)}
-            defaultChecked={defaultValue === option.value}
+            checked={value === option.value}
             value={option.value}
           />
           <div>
