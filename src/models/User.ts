@@ -9,5 +9,4 @@ const UserSchema = new Schema({
   provider: String,
 });
 
-
 export const User = models?.User || model('User', UserSchema);
