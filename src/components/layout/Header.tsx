@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth"
 import Link from "next/link"
-import { ChevronDown } from "lucide-react"
+// import { ChevronDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import LogoutButton from "@/components/buttons/LogoutButton"
 import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"
 import { NAVIGATION } from "@/constants/nav"
@@ -28,7 +28,7 @@ export default async function Header() {
 
           </div>
           <nav className="hidden md:flex items-center justify-center gap-6">
-            {NAVIGATION.mainNav.map((link) => (
+            {/* {NAVIGATION.mainNav.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -36,9 +36,9 @@ export default async function Header() {
               >
                 {link.label}
               </Link>
-            ))}
+            ))} */}
 
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-900">
                 Resources <ChevronDown className="h-4 w-4" />
               </DropdownMenuTrigger>
@@ -59,7 +59,7 @@ export default async function Header() {
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
           </nav>
 
           {/* Right side - Auth nav */}
@@ -69,12 +69,19 @@ export default async function Header() {
                 <>
                   {NAVIGATION.authNav.authenticated.map((item, index) =>
                     item.component === "LogoutButton" ? (
-                      <LogoutButton key={index} />
-                    ) : page && (
+                      <>
+                        <LogoutButton key={index} />
+                      </>
+                    ) : page ? (
                       <Link key={item.href} href={item.href || "/"} className="hover:text-slate-900">
                         {item.prefix}
                         {session?.user?.name}
                       </Link>
+                    ) : (
+                      <div key={item.href} className="hover:text-slate-900">
+                        {item.prefix}
+                        {session?.user?.name}
+                      </div>
                     ),
                   )}
                 </>

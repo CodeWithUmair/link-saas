@@ -4,9 +4,9 @@ export const NAVIGATION = {
         href: "/",
     },
     mainNav: [
-        { label: "About", href: "/about" },
-        { label: "Pricing", href: "/pricing" },
-        { label: "Contact", href: "/contact" },
+        // { label: "About", href: "/about" },
+        // { label: "Pricing", href: "/pricing" },
+        // { label: "Contact", href: "/contact" },
     ],
     authNav: {
         authenticated: [{ label: "Account", href: "/dashboard/account", prefix: "Hello, " }, { component: "LogoutButton" }],

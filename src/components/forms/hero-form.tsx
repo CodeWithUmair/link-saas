@@ -49,7 +49,7 @@ const HeroForm: React.FC<HeroFormProps> = ({ user }) => {
       <span className="bg-background whitespace-nowrap">um-saas.to/</span>
       <Input
         type="text"
-        style={{ backgroundColor: "white", marginBottom: 0, paddingLeft: 0 }}
+        style={{ backgroundColor: "white", marginBottom: 0, paddingLeft: 10 }}
         placeholder="username"
       />
       <Button

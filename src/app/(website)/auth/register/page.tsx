@@ -1,12 +1,12 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function RegisterPage() {
+export function RegisterPageInner() {
     const params = useSearchParams();
     const preEmail = params.get("email") || "";
     const [name, setName] = useState("");
@@ -60,5 +60,13 @@ export default function RegisterPage() {
                 <Button type="submit">Sign Up</Button>
             </form>
         </div>
+    );
+}
+
+export default function RegisterPage() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+            <RegisterPageInner />
+        </Suspense>
     );
 }

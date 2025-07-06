@@ -20,7 +20,6 @@ interface PageParams {
 type BackgroundStyle = React.CSSProperties;
 
 function getBackgroundStyle(page: PageType): BackgroundStyle {
-  console.log("🚀 ~ getBackgroundStyle ~ page:", page)
 
   switch (page.bgType) {
     case "color":
