@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/libs/utils";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { signOut } from "next-auth/react";
@@ -10,7 +11,7 @@ export default function LogoutButton({
   iconClasses = "",
 }) {
   return (
-    <button className={className} onClick={() => signOut()}>
+    <button className={cn(`cursor-pointer`, className)} onClick={() => signOut()}>
       {iconLeft && (
         <FontAwesomeIcon icon={faRightFromBracket} className={iconClasses} />
       )}
